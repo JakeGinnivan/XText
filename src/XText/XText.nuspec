@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>1.0.0.0</version>
+    <title>$title$</title>
+    <authors>Jake Ginnivan, Graeme Foster</authors>
+    <owners>Jake Ginnivan</owners>
+    <projectUrl>https://github.com/JakeGinnivan/XText</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <copyright>Copyright Jake Ginnivan 2012</copyright>
+    <tags>WPF TextBlock Inline Run Formatting Text FlowDoc</tags>
+  </metadata>
+</package>

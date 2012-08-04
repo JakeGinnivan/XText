@@ -103,3 +103,5 @@ packages
 
 # our output folder for build artifacts
 artifacts
+
+XText.*.nupkg
