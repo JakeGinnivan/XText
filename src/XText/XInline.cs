@@ -3,7 +3,7 @@ using System.Windows.Documents;
 
 namespace XText
 {
-    public abstract class XInline : XElement
+    public abstract class XInline : XTextElement
     {
         protected XInline(string text)
             : base(null)
@@ -30,6 +30,11 @@ namespace XText
                 return BuildElementInternal();
             }
             return null;
+        }
+
+        public static implicit operator XInline(string s)
+        {
+            return new XRun(s);
         }
     }
 }

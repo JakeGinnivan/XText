@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>$id$</id>
-    <version>1.0.0.0</version>
+    <version>1.1.0.0</version>
     <title>$title$</title>
     <authors>Jake Ginnivan, Graeme Foster</authors>
     <owners>Jake Ginnivan</owners>
@@ -11,5 +11,10 @@
     <description>$description$</description>
     <copyright>Copyright Jake Ginnivan 2012</copyright>
     <tags>WPF TextBlock Inline Run Formatting Text FlowDoc</tags>
+    <releaseNotes>
+1.0.0.0 - Initial Release
+1.0.1.0 - Added implicit cast operator from string->XInline
+1.1.0.0 - Renamed XElement to XTextElement (because of naming conflict with actual XElement)
+    </releaseNotes>
   </metadata>
 </package>

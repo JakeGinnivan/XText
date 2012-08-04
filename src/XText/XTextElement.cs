@@ -2,11 +2,11 @@
 
 namespace XText
 {
-    public abstract class XElement
+    public abstract class XTextElement
     {
         readonly Func<bool> shouldBuildElement;
 
-        protected XElement(Func<bool> shouldBuildElement)
+        protected XTextElement(Func<bool> shouldBuildElement)
         {
             this.shouldBuildElement = shouldBuildElement;
         }
@@ -16,7 +16,7 @@ namespace XText
             return ((shouldBuildElement != null && shouldBuildElement()) || shouldBuildElement == null);
         }
 
-        public static implicit operator XElement(string s)
+        public static implicit operator XTextElement(string s)
         {
             return new XRun(s);
         }

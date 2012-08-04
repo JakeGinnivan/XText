@@ -7,22 +7,22 @@ namespace XText
 {
     public class XSection : XBlock
     {
-        public XSection(BlockStyle blockStyle, params XElement[] children)
+        public XSection(BlockStyle blockStyle, params XTextElement[] children)
             : base(blockStyle, children)
         {
         }
 
-        public XSection(Func<bool> writeIf, BlockStyle blockStyle, params XElement[] children)
+        public XSection(Func<bool> writeIf, BlockStyle blockStyle, params XTextElement[] children)
             : base(writeIf, blockStyle, children)
         {
         }
 
-        public XSection(params XElement[] children)
+        public XSection(params XTextElement[] children)
             : base(BlockStyle.Normal, children)
         {
         }
 
-        public XSection(Func<bool> writeIf, params XElement[] children)
+        public XSection(Func<bool> writeIf, params XTextElement[] children)
             : base(writeIf, BlockStyle.Normal, children)
         {
         }

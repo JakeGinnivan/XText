@@ -7,27 +7,27 @@ namespace XText
 {
     public class XParagraph : XBlock
     {
-        public XParagraph(params XElement[] children)
+        public XParagraph(params XTextElement[] children)
             : base(BlockStyle.Normal, children)
         {
         }
 
-        public XParagraph(Func<bool> writeIf, params XElement[] children)
+        public XParagraph(Func<bool> writeIf, params XTextElement[] children)
             : base(writeIf, BlockStyle.Normal, children)
         {
         }
 
-        public XParagraph(BlockStyle blockStyle = BlockStyle.Normal, params XElement[] children)
+        public XParagraph(BlockStyle blockStyle = BlockStyle.Normal, params XTextElement[] children)
             : base(blockStyle, children)
         {
         }
 
-        public XParagraph(Func<bool> writeIf, BlockStyle blockStyle = BlockStyle.Normal, params XElement[] children)
+        public XParagraph(Func<bool> writeIf, BlockStyle blockStyle = BlockStyle.Normal, params XTextElement[] children)
             : base(writeIf, blockStyle, children)
         {
         }
 
-        public void AddChild(XElement child)
+        public void AddChild(XTextElement child)
         {
             Children.Add(child);
         }

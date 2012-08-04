@@ -6,19 +6,19 @@ using System.Windows.Documents;
 
 namespace XText
 {
-    public abstract class XBlock : XElement
+    public abstract class XBlock : XTextElement
     {
         public BlockStyle BlockStyle { get; set; }
-        protected readonly IList<XElement> Children;
+        protected readonly IList<XTextElement> Children;
 
-        protected XBlock(BlockStyle blockStyle = BlockStyle.Normal, params XElement[] children)
+        protected XBlock(BlockStyle blockStyle = BlockStyle.Normal, params XTextElement[] children)
             : base(null)
         {
             BlockStyle = blockStyle;
             Children = children.ToList();
         }
 
-        protected XBlock(Func<bool> writeIf, BlockStyle blockStyle = BlockStyle.Normal, params XElement[] children)
+        protected XBlock(Func<bool> writeIf, BlockStyle blockStyle = BlockStyle.Normal, params XTextElement[] children)
             : base(writeIf)
         {
             Children = children.ToList();

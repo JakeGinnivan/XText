@@ -44,7 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlockStyle.cs" />
-    <Compile Include="XElement.cs" />
+    <Compile Include="XTextElement.cs" />
     <Compile Include="XInline.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XBlock.cs" />
