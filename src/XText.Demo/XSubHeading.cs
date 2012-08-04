@@ -2,7 +2,7 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace XText
+namespace XText.Demo
 {
     public class XSubHeading : XBlock
     {

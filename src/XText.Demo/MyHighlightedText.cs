@@ -2,12 +2,12 @@ using System;
 using System.Windows;
 using System.Windows.Documents;
 
-namespace XText
+namespace XText.Demo
 {
-    public class XHighlighted : XInline
+    public class MyHighlightedText : XInline
     {
-        public XHighlighted(string text) : base(text) { }
-        public XHighlighted(Func<bool> writeIf, string text) : base(writeIf, text) { }
+        public MyHighlightedText(string text) : base(text) { }
+        public MyHighlightedText(Func<bool> writeIf, string text) : base(writeIf, text) { }
 
         protected override Inline BuildElementInternal()
         {
@@ -16,9 +16,9 @@ namespace XText
             return span;
         }
 
-        public static explicit operator XHighlighted(string s)
+        public static explicit operator MyHighlightedText(string s)
         {
-            return new XHighlighted(s);
+            return new MyHighlightedText(s);
         }
     }
 }
