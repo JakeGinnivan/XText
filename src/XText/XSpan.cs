@@ -4,6 +4,9 @@ using System.Windows.Documents;
 
 namespace XText
 {
+    /// <summary>
+    /// Useful for grouping a set of inlines and optionally writing them out.
+    /// </summary>
     public class XSpan : XInline
     {
         readonly IList<XInline> children = new List<XInline>();

@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlockStyle.cs" />
+    <Compile Include="XSpan.cs" />
     <Compile Include="XTextElement.cs" />
     <Compile Include="XInline.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -53,8 +54,10 @@
     <Compile Include="XLineBreak.cs" />
     <Compile Include="XParagraph.cs" />
     <Compile Include="XSection.cs" />
-    <Compile Include="XSpan.cs" />
     <Compile Include="XRun.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="XText.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

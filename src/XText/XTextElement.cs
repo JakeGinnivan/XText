@@ -18,7 +18,7 @@ namespace XText
 
         public static implicit operator XTextElement(string s)
         {
-            return new XRun(s);
+            return new XSpan(s);
         }
     }
 }

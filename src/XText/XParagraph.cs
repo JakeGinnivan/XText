@@ -1,4 +1,6 @@
 using System;
+using System.Diagnostics;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -7,23 +9,23 @@ namespace XText
 {
     public class XParagraph : XBlock
     {
-        public XParagraph(params XTextElement[] children)
-            : base(BlockStyle.Normal, children)
+        public XParagraph(params XInline[] children)
+            : base(BlockStyle.Normal, children.Cast<XTextElement>().ToArray())
         {
         }
 
-        public XParagraph(Func<bool> writeIf, params XTextElement[] children)
-            : base(writeIf, BlockStyle.Normal, children)
+        public XParagraph(Func<bool> writeIf, params XInline[] children)
+            : base(writeIf, BlockStyle.Normal, children.Cast<XTextElement>().ToArray())
         {
         }
 
-        public XParagraph(BlockStyle blockStyle = BlockStyle.Normal, params XTextElement[] children)
-            : base(blockStyle, children)
+        public XParagraph(BlockStyle blockStyle = BlockStyle.Normal, params XInline[] children)
+            : base(blockStyle, children.Cast<XTextElement>().ToArray())
         {
         }
 
-        public XParagraph(Func<bool> writeIf, BlockStyle blockStyle = BlockStyle.Normal, params XTextElement[] children)
-            : base(writeIf, blockStyle, children)
+        public XParagraph(Func<bool> writeIf, BlockStyle blockStyle = BlockStyle.Normal, params XInline[] children)
+            : base(writeIf, blockStyle, children.Cast<XTextElement>().ToArray())
         {
         }
 
@@ -39,7 +41,7 @@ namespace XText
 
         protected override void AddChild(FrameworkElement element, UIElement child)
         {
-            ((TextBlock)element).Inlines.Add(child);
+            Debug.WriteLine("XParagraph only supports inline content");
         }
 
         protected override void AddChild(FrameworkElement element, Inline child)
