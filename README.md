@@ -20,3 +20,17 @@ You can also optionally print out elements:
     bool shouldWrite = true;
 
     new XParagraph("Some text", ()=>shouldWrite)
+    
+## Available Classes
+XSection - Top level structure, each child will be on a new line (StackPanel)
+XParagraph - Takes a collection of XInlines to format as a paragraph (TextBlock)
+XSpan - Takes a collection of inlines, and is an inline itself (useful for optionally writing out a sentance in a paragraph) (Span)
+XRun - Inline text, used for implicit conversion between string and XInline (Run)
+XBold - Bold Run
+XItalic - Italic Run
+XLineBreak - Flow doc line break
+
+### Base classes
+XTextElement - The base class representing all possible elements
+XInline - Base class representing an inline or flowdoc element
+XBlock - Base class for representing a WPF Control, blocks support indentation
