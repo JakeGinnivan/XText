@@ -25,5 +25,10 @@ namespace XText.Demo
             buildElementInternal.SetResourceReference(FrameworkContentElement.StyleProperty, "H2");
             return buildElementInternal;
         }
+
+        public override string ToString()
+        {
+            return string.Format("{0}# {1}", BlockStyle == BlockStyle.Indented ? "  " : string.Empty, Text);
+        }
     }
 }

@@ -17,5 +17,10 @@ namespace XText
         {
             return new XBold(s);
         }
+
+        public override string ToString()
+        {
+            return "**" + base.ToString() + "**";
+        }
     }
 }

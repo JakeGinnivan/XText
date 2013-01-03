@@ -1,12 +1,16 @@
 using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 
 namespace XText
 {
+    /// <summary>
+    /// Represents a paragraph of text
+    /// </summary>
     public class XParagraph : XBlock
     {
         public XParagraph(params XInline[] children)
@@ -52,6 +56,13 @@ namespace XText
         protected override void PostChildrenAdded(FrameworkElement element)
         {
             ((TextBlock)element).Inlines.Add(new Run(" "));
+        }
+
+        public override string ToString()
+        {
+            var regex = new Regex(@"^ ?(.*?) ?\r?$", RegexOptions.Multiline);
+            var indent = BlockStyle == BlockStyle.Indented ? "  " : string.Empty;
+            return indent + regex.Replace(string.Join(" ", Children.Select(s => s.ToString())), indent + "$1").Replace("\n", Environment.NewLine).Trim();
         }
     }
 }

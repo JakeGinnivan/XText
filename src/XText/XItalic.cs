@@ -17,5 +17,10 @@ namespace XText
         {
             return new XItalic(s);
         }
+
+        public override string ToString()
+        {
+            return "*" + base.ToString() + "*";
+        }
     }
 }

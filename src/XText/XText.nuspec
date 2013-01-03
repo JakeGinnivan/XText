@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>$id$</id>
-    <version>1.2.0.0</version>
+    <version>1.3.0.0</version>
     <title>$title$</title>
     <authors>Jake Ginnivan, Graeme Foster</authors>
     <owners>Jake Ginnivan</owners>
@@ -16,6 +16,7 @@
 1.0.1.0 - Added implicit cast operator from string->XInline
 1.1.0.0 - Renamed XElement to XTextElement (because of naming conflict with actual XElement)
 1.2.0.0 - Restricted XParagraph to only accept inlines
+1.3.0.0 - Added ToString overloads for all elements
     </releaseNotes>
   </metadata>
 </package>

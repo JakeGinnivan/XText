@@ -15,5 +15,10 @@ namespace XText
         {
             return new LineBreak();
         }
+
+        public override string ToString()
+        {
+            return Environment.NewLine;
+        }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Documents;
 
 namespace XText
@@ -44,6 +45,11 @@ namespace XText
                     element.Inlines.Add(innerElement);
             }
             return element;
+        }
+
+        public override string ToString()
+        {
+            return string.Join(" ", children.Select(c => c.ToString()));
         }
     }
 }

@@ -48,9 +48,10 @@ namespace XText
 
                 foreach (var child in Children.Where(o => o.ShouldBuildElement()))
                 {
-                    if (child is XBlock)
+                    var block = child as XBlock;
+                    if (block != null)
                     {
-                        AddChild(element, ((XBlock)child).BuildElement());
+                        AddChild(element, block.BuildElement());
                     }
                     else
                     {

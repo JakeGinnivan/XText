@@ -1,10 +1,14 @@
 using System;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 
 namespace XText
 {
+    /// <summary>
+    /// Represents a list of elements, each child will be on it's own line
+    /// </summary>
     public class XSection : XBlock
     {
         public XSection(BlockStyle blockStyle, params XTextElement[] children)
@@ -49,6 +53,22 @@ namespace XText
 
         protected override void PostChildrenAdded(FrameworkElement element)
         {
+        }
+
+        public override string ToString()
+        {
+            var indent = string.Empty;
+            if (BlockStyle == BlockStyle.Indented)
+                indent = "  ";
+
+            var stringBuilder = new StringBuilder();
+            foreach (var ccWinElement in Children)
+            {
+                stringBuilder.Append(indent);
+                stringBuilder.AppendLine(ccWinElement.ToString());
+            }
+
+            return indent + stringBuilder.ToString().Trim();
         }
     }
 }

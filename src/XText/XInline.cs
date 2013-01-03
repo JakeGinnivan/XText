@@ -36,5 +36,10 @@ namespace XText
         {
             return new XRun(s);
         }
+
+        public override string ToString()
+        {
+            return ShouldBuildElement() ? Text : string.Empty;
+        }
     }
 }
