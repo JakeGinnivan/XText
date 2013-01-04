@@ -55,14 +55,15 @@ namespace XText
 
         protected override void PostChildrenAdded(FrameworkElement element)
         {
-            ((TextBlock)element).Inlines.Add(new Run(" "));
+            if (!(((TextBlock)element).Inlines.LastInline is LineBreak))
+                ((TextBlock)element).Inlines.Add(new Run(" "));
         }
 
         public override string ToString()
         {
             var regex = new Regex(@"^ ?(.*?) ?\r?$", RegexOptions.Multiline);
             var indent = BlockStyle == BlockStyle.Indented ? "  " : string.Empty;
-            return indent + regex.Replace(string.Join(" ", Children.Select(s => s.ToString())), indent + "$1").Replace("\n", Environment.NewLine).Trim();
+            return indent + regex.Replace(string.Join(" ", Children.Select(s => s.ToString())), indent + "$1").Replace("\n", Environment.NewLine).Trim() + "\r\n";
         }
     }
 }

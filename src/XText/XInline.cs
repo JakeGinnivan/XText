@@ -5,6 +5,8 @@ namespace XText
 {
     public abstract class XInline : XTextElement
     {
+        private string text;
+
         protected XInline(string text)
             : base(null)
         {
@@ -19,7 +21,15 @@ namespace XText
         }
 
         public Func<bool> WriteIf { get; private set; }
-        public string Text { get; private set; }
+
+        public string Text
+        {
+            get { return text; }
+            private set
+            {
+                text = value == null ? null : value.Trim();
+            }
+        }
 
         protected abstract Inline BuildElementInternal();
 

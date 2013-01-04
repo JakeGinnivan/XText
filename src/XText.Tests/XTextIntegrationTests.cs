@@ -1,0 +1,69 @@
+﻿using System.Windows.Controls;
+using ApprovalTests;
+using ApprovalTests.Reporters;
+using ApprovalTests.Wpf;
+using Xunit;
+
+namespace XText.Tests
+{
+    public class XTextIntegrationTests
+    {
+        public class Scenario1
+        {
+            private readonly XSection section;
+
+            public Scenario1()
+            {
+                section = new XSection(
+                    new XParagraph("Some test", (XBold) "with bold", "and stuff"),
+                    new XParagraph("Multiple lines", new XLineBreak(), "Next"));
+            }
+
+            [Fact]
+            [UseReporter(typeof (DiffReporter))]
+            public void StringRepresentation()
+            {
+                Approvals.Verify(section.ToString());
+            }
+
+            [Fact]
+            [UseReporter(typeof (TortoiseImageDiffReporter2), typeof(ClipboardReporter))]
+            public void ControlRepresentation()
+            {
+                WpfApprovals.Verify(new ContentControl
+                    {
+                        Content = section.BuildElement()
+                    });
+            }
+        }
+
+        public class Scenario2
+        {
+            private readonly XSection section;
+
+            public Scenario2()
+            {
+                section = new XSection(
+                    new XParagraph("Some test", (XBold)" with bold ", "and stuff"),
+                    new XParagraph("Multiple lines", new XLineBreak(), "Next"));
+            }
+
+            [Fact]
+            [UseReporter(typeof(DiffReporter))]
+            public void StringRepresentation()
+            {
+                Approvals.Verify(section.ToString());
+            }
+
+            [Fact]
+            [UseReporter(typeof(TortoiseImageDiffReporter2), typeof(ClipboardReporter))]
+            public void ControlRepresentation()
+            {
+                WpfApprovals.Verify(new ContentControl
+                {
+                    Content = section.BuildElement()
+                });
+            }
+        }
+    }
+}

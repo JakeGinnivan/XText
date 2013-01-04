@@ -33,7 +33,7 @@ namespace XText
 
         protected override FrameworkElement BuildElementInternal()
         {
-            return new StackPanel { Margin = new Thickness(0, 5, 0, 5) };
+            return new StackPanel();
         }
 
         public void AddChild(XBlock child)

@@ -42,7 +42,7 @@ namespace XText.Tests
 
             var tostring = paragraph.ToString();
 
-            Assert.Equal("Hello\r\nWorld", tostring);
+            Assert.Equal("Hello\r\nWorld\r\n", tostring);
         }
 
         [Fact]
@@ -52,7 +52,7 @@ namespace XText.Tests
 
             var tostring = paragraph.ToString();
 
-            Assert.Equal("  Hello\r\n  World", tostring);
+            Assert.Equal("  Hello\r\n  World\r\n", tostring);
         }
 
         [Fact]
