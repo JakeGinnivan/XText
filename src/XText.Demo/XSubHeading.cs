@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -24,6 +25,26 @@ namespace XText.Demo
             var buildElementInternal = new TextBlock { TextWrapping = TextWrapping.Wrap, Text = Text, Margin = new Thickness(0, 5, 0, 5) };
             buildElementInternal.SetResourceReference(FrameworkContentElement.StyleProperty, "H2");
             return buildElementInternal;
+        }
+
+        protected override void AddChild(StringBuilder stringBuilder, XBlock child)
+        {
+            throw new InvalidOperationException("XSubHeading should have no children");
+        }
+
+        protected override void AddChild(StringBuilder stringBuilder, XInline child)
+        {
+            throw new InvalidOperationException("XSubHeading should have no children");
+        }
+
+        protected override void AddingChild(StringBuilder stringBuilder, XBlock child)
+        {
+            throw new InvalidOperationException("XSubHeading should have no children");
+        }
+
+        protected override void AddingChild(StringBuilder stringBuilder, XInline child)
+        {
+            throw new InvalidOperationException("XSubHeading should have no children");
         }
 
         public override string ToString()

@@ -20,7 +20,7 @@ namespace XText
 
         public override string ToString()
         {
-            return "**" + base.ToString() + "**";
+            return ShouldBuildElement() ? "**" + base.ToString() + "**" : string.Empty;
         }
     }
 }

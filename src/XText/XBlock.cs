@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Windows;
 using System.Windows.Documents;
 
@@ -32,7 +33,13 @@ namespace XText
 
         protected virtual void AddChild(FrameworkElement element, UIElement child) { }
         protected virtual void AddChild(FrameworkElement element, Inline child) { }
-        protected virtual void PostChildrenAdded(FrameworkElement element) { }
+        protected virtual void AddingChild(FrameworkElement element, UIElement child) { }
+        protected virtual void AddingChild(FrameworkElement element, Inline child) { }
+
+        protected abstract void AddChild(StringBuilder stringBuilder, XBlock child);
+        protected abstract void AddChild(StringBuilder stringBuilder, XInline child);
+        protected abstract void AddingChild(StringBuilder stringBuilder, XBlock child);
+        protected abstract void AddingChild(StringBuilder stringBuilder, XInline child);
 
         public FrameworkElement BuildElement()
         {
@@ -49,21 +56,53 @@ namespace XText
                 foreach (var child in Children.Where(o => o.ShouldBuildElement()))
                 {
                     var block = child as XBlock;
+
                     if (block != null)
                     {
-                        AddChild(element, block.BuildElement());
+                        var frameworkElement = block.BuildElement();
+                        AddingChild(element, frameworkElement);
+                        AddChild(element, frameworkElement);
                     }
                     else
                     {
-                        AddChild(element, ((XInline)child).BuildElement());
+                        var buildElement = ((XInline)child).BuildElement();
+                        AddingChild(element, buildElement);
+                        AddChild(element, buildElement);
                     }
 
-                    PostChildrenAdded(element);
                 }
                 return element;
             }
 
             return null;
+        }
+
+        public override string ToString()
+        {
+            if ((WriteIf != null && WriteIf()) || WriteIf == null)
+            {
+                var stringBuilder = new StringBuilder();
+
+                foreach (var child in Children.Where(o => o.ShouldBuildElement()))
+                {
+                    var block = child as XBlock;
+
+                    if (block != null)
+                    {
+                        AddingChild(stringBuilder, block);
+                        AddChild(stringBuilder, block);
+                    }
+                    else
+                    {
+                        AddingChild(stringBuilder, (XInline)child);
+                        AddChild(stringBuilder, (XInline)child);
+                    }
+                }
+
+                return stringBuilder.ToString();
+            }
+
+            return string.Empty;
         }
     }
 }

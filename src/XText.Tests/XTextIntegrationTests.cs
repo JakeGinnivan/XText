@@ -65,5 +65,34 @@ namespace XText.Tests
                 });
             }
         }
+
+        public class WhiteSpaceScenario
+        {
+            private readonly XSection section;
+
+            public WhiteSpaceScenario()
+            {
+                section = new XSection(
+                    new XParagraph("Some test ", (XBold)" with bold", "(", "and stuff", ")"),
+                    new XParagraph("Multiple lines", ". Next"));
+            }
+
+            [Fact]
+            [UseReporter(typeof(DiffReporter))]
+            public void StringRepresentation()
+            {
+                Approvals.Verify(section.ToString());
+            }
+
+            [Fact]
+            [UseReporter(typeof(TortoiseImageDiffReporter2), typeof(ClipboardReporter))]
+            public void ControlRepresentation()
+            {
+                WpfApprovals.Verify(new ContentControl
+                {
+                    Content = section.BuildElement()
+                });
+            }
+        }
     }
 }

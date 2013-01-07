@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Linq;
-using System.Text.RegularExpressions;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -53,17 +53,53 @@ namespace XText
             ((TextBlock)element).Inlines.Add(child);
         }
 
-        protected override void PostChildrenAdded(FrameworkElement element)
+        protected override void AddingChild(FrameworkElement element, Inline child)
         {
-            if (!(((TextBlock)element).Inlines.LastInline is LineBreak))
-                ((TextBlock)element).Inlines.Add(new Run(" "));
+            var textBlock = (TextBlock)element;
+            if (FormattingCalculator.RequiresSpace(textBlock.Inlines.LastInline, child))
+                textBlock.Inlines.Add(new Run(" "));
+        }
+
+        protected override void AddingChild(FrameworkElement element, UIElement child)
+        {
+            Debug.WriteLine("XParagraph only supports inline content");
+        }
+
+        protected override void AddingChild(StringBuilder stringBuilder, XInline child)
+        {
+            var lastCharacter = stringBuilder.Length > 0 ? stringBuilder[stringBuilder.Length - 1] : '\0';
+            if (BlockStyle == BlockStyle.Indented)
+
+            {
+                if (stringBuilder.Length == 0 || lastCharacter == '\n')
+                    stringBuilder.Append("  ");
+            }
+
+            if (child is XLineBreak)
+                return;
+
+            if (FormattingCalculator.RequiresSpace(lastCharacter, child.Text.FirstOrDefault()))
+                stringBuilder.Append(" ");
+        }
+
+        protected override void AddChild(StringBuilder stringBuilder, XBlock child)
+        {
+            Debug.WriteLine("XParagraph only supports inline content");
+        }
+
+        protected override void AddChild(StringBuilder stringBuilder, XInline child)
+        {
+            stringBuilder.Append(child);
+        }
+
+        protected override void AddingChild(StringBuilder stringBuilder, XBlock child)
+        {
+            Debug.WriteLine("XParagraph only supports inline content");
         }
 
         public override string ToString()
         {
-            var regex = new Regex(@"^ ?(.*?) ?\r?$", RegexOptions.Multiline);
-            var indent = BlockStyle == BlockStyle.Indented ? "  " : string.Empty;
-            return indent + regex.Replace(string.Join(" ", Children.Select(s => s.ToString())), indent + "$1").Replace("\n", Environment.NewLine).Trim() + "\r\n";
+            return ShouldBuildElement() ? base.ToString() + Environment.NewLine : base.ToString();
         }
     }
 }
