@@ -30,5 +30,10 @@ namespace XText.Demo
         {
             return string.Format("{0}# {1}", BlockStyle == BlockStyle.Indented ? "  " : string.Empty, Text);
         }
+
+        public override string ToPlainString()
+        {
+            return string.Format("{0} {1}", BlockStyle == BlockStyle.Indented ? "  " : string.Empty, Text);
+        }
     }
 }

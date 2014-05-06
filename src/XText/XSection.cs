@@ -70,5 +70,21 @@ namespace XText
 
             return indent + stringBuilder.ToString().Trim();
         }
+
+        public override string ToPlainString()
+        {
+            var indent = string.Empty;
+            if (BlockStyle == BlockStyle.Indented)
+                indent = "  ";
+
+            var stringBuilder = new StringBuilder();
+            foreach (var ccWinElement in Children)
+            {
+                stringBuilder.Append(indent);
+                stringBuilder.AppendLine(ccWinElement.ToPlainString());
+            }
+
+            return indent + stringBuilder.ToString().Trim();
+        }
     }
 }

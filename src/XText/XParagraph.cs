@@ -65,5 +65,12 @@ namespace XText
             var indent = BlockStyle == BlockStyle.Indented ? "  " : string.Empty;
             return indent + regex.Replace(string.Join(" ", Children.Select(s => s.ToString())), indent + "$1").Replace("\n", Environment.NewLine).Trim() + "\r\n";
         }
+
+        public override string ToPlainString()
+        {
+            var regex = new Regex(@"^ ?(.*?) ?\r?$", RegexOptions.Multiline);
+            var indent = BlockStyle == BlockStyle.Indented ? "  " : string.Empty;
+            return indent + regex.Replace(string.Join(" ", Children.Select(s => s.ToPlainString())), indent + "$1").Replace("\n", Environment.NewLine).Trim() + "\r\n";
+        }
     }
 }

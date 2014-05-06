@@ -20,5 +20,7 @@ namespace XText
         {
             return new XSpan(s);
         }
+
+        public abstract string ToPlainString();
     }
 }

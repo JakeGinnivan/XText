@@ -49,6 +49,11 @@ namespace XText
 
         public override string ToString()
         {
+            return ToPlainString();
+        }
+
+        public override string ToPlainString()
+        {
             return ShouldBuildElement() ? Text : string.Empty;
         }
     }
