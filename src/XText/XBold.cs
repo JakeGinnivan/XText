@@ -1,12 +1,20 @@
 using System;
+using System.Windows.Data;
 using System.Windows.Documents;
 
 namespace XText
 {
     public class XBold : XInline
     {
+        readonly Binding textBinding;
+
         public XBold(string text) : base(text) { }
         public XBold(Func<bool> writeIf, string text) : base(writeIf, text) { }
+
+        public XBold(Binding textBinding) : base(string.Empty)
+        {
+            this.textBinding = textBinding;
+        }
 
         protected override Inline BuildElementInternal()
         {
@@ -20,6 +28,9 @@ namespace XText
 
         public override string ToString()
         {
+            if (textBinding != null)
+                return "**" + string.Format(textBinding.StringFormat ?? "{0}", string.Concat("{", textBinding.Path.Path, "}")) + "**";
+
             return "**" + base.ToString() + "**";
         }
     }
