@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Windows.Data;
+using Shouldly;
 using Xunit;
 
 namespace XText.Tests
@@ -16,6 +18,16 @@ namespace XText.Tests
         }
 
         [Fact]
+        public void XBoldBindingToString()
+        {
+            var bold = new XBold(new Binding("Foo"));
+
+            var tostring = bold.ToString();
+
+            Assert.Equal("**{Foo}**", tostring);
+        }
+
+        [Fact]
         public void XItalicToString()
         {
             var italic = new XItalic("Text");
@@ -23,6 +35,16 @@ namespace XText.Tests
             var tostring = italic.ToString();
 
             Assert.Equal("*Text*", tostring);
+        }
+
+        [Fact]
+        public void XItalicBindingToString()
+        {
+            var italic = new XItalic(new Binding("Foo"));
+
+            var tostring = italic.ToString();
+
+            Assert.Equal("*{Foo}*", tostring);
         }
 
         [Fact]
@@ -62,7 +84,30 @@ namespace XText.Tests
 
             var tostring = run.ToString();
 
-            Assert.Equal("Foo", tostring);
+            tostring.ShouldBe("Foo");
+        }
+
+        [Fact]
+        public void XRunBindingToString()
+        {
+            var run = new XRun(new Binding("Foo"));
+
+            var tostring = run.ToString();
+
+            tostring.ShouldBe("{Foo}");
+        }
+
+        [Fact]
+        public void XRunBindingWithStringFormatToString()
+        {
+            var run = new XRun(new Binding("Foo")
+            {
+                StringFormat = "This is a {0}!"
+            });
+
+            var tostring = run.ToString();
+
+            tostring.ShouldBe("This is a {Foo}!");
         }
 
         [Fact]
