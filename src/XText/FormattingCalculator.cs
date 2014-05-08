@@ -9,7 +9,7 @@ namespace XText
         {
             var requiresSpace = true;
             var nextRun = nextInline as Run;
-            var nextInlineFirstCharacter = nextRun == null ? '\0' : nextRun.Text.FirstOrDefault();
+            var nextInlineFirstCharacter = nextRun == null ? '\0' : (nextRun.Text ?? string.Empty).FirstOrDefault();
 
             if (lastInline == null)
                 requiresSpace = RequiresSpace('\0', nextInlineFirstCharacter);

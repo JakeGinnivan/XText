@@ -79,7 +79,7 @@ namespace XText
             if (child is XLineBreak)
                 return;
 
-            if (FormattingCalculator.RequiresSpace(lastCharacter, child.Text.FirstOrDefault()))
+            if (FormattingCalculator.RequiresSpace(lastCharacter, (child.Text ?? string.Empty).FirstOrDefault()))
                 stringBuilder.Append(" ");
         }
 
