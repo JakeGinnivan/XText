@@ -27,6 +27,8 @@ namespace XText
 
         public override string ToString()
         {
+            if (!ShouldBuildElement()) return string.Empty;
+            
             if (textBinding != null)
                 return "*" + string.Format(textBinding.StringFormat ?? "{0}", string.Concat("{", textBinding.Path.Path, "}")) + "*";
 

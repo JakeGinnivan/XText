@@ -51,10 +51,24 @@ namespace XText
             ((StackPanel)element).Children.Add(new TextBlock(child));
         }
 
-        protected override void PostChildrenAdded(FrameworkElement element)
+        protected override void AddChild(StringBuilder stringBuilder, XBlock child)
+        {
+            stringBuilder.AppendLine(child.ToString());
+        }
+
+        protected override void AddChild(StringBuilder stringBuilder, XInline child)
+        {
+            stringBuilder.AppendLine(child.ToString());
+        }
+
+        protected override void AddingChild(StringBuilder stringBuilder, XBlock child)
         {
         }
 
+        protected override void AddingChild(StringBuilder stringBuilder, XInline child)
+        {
+        }
+        
         public override string ToString()
         {
             var indent = string.Empty;
