@@ -27,10 +27,11 @@ namespace XText
 
         public static bool RequiresSpace(char lastCharacter, char nextCharacter)
         {
-            if (lastCharacter == '\0' || lastCharacter == '\n' || lastCharacter == ' ')
+            if (lastCharacter == '\0' || lastCharacter == '\n' || lastCharacter == ' ' || lastCharacter == '(')
                 return false;
 
-            if (nextCharacter == ')')
+            if (nextCharacter == ')' || nextCharacter == '.' || nextCharacter == '?' || nextCharacter == ';' ||
+                nextCharacter == ':' || nextCharacter == ',' || nextCharacter == ' ' || nextCharacter == '!')
                 return false;
 
             return true;

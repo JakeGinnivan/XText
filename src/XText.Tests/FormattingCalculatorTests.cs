@@ -18,6 +18,7 @@ namespace XText.Tests
         [InlineData('1', true)]
         [InlineData('!', true)]
         [InlineData(' ', false)]
+        [InlineData('(', false)]
         public void AddsSpaceTheoryDependingOnLastCharacter(char lastCharacter, bool shouldAddSpace)
         {
             var needsSpace = FormattingCalculator.RequiresSpace(lastCharacter, '\0');
