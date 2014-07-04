@@ -51,5 +51,10 @@ namespace XText
         {
             return string.Join(" ", children.Select(c => c.ToString()));
         }
+
+        public override string ToPlainString()
+        {
+            return string.Join(string.Empty, children.Select(c => c.ToString()));
+        }
     }
 }
