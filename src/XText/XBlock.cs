@@ -9,7 +9,6 @@ namespace XText
 {
     public abstract class XBlock : XTextElement
     {
-        public BlockStyle BlockStyle { get; set; }
         protected readonly IList<XTextElement> Children;
 
         protected XBlock(BlockStyle blockStyle = BlockStyle.Normal, params XTextElement[] children)
@@ -27,6 +26,8 @@ namespace XText
             WriteIf = writeIf;
         }
 
+        public BlockStyle BlockStyle { get; set; }
+
         public Func<bool> WriteIf { get; private set; }
 
         protected abstract FrameworkElement BuildElementInternal();
@@ -36,8 +37,8 @@ namespace XText
         protected virtual void AddingChild(FrameworkElement element, UIElement child) { }
         protected virtual void AddingChild(FrameworkElement element, Inline child) { }
 
-        protected abstract void AddChild(StringBuilder stringBuilder, XBlock child);
-        protected abstract void AddChild(StringBuilder stringBuilder, XInline child);
+        protected abstract void AddChild(StringBuilder stringBuilder, XBlock child, bool formatted);
+        protected abstract void AddChild(StringBuilder stringBuilder, XInline child, bool formatted);
         protected abstract void AddingChild(StringBuilder stringBuilder, XBlock child);
         protected abstract void AddingChild(StringBuilder stringBuilder, XInline child);
 
@@ -79,6 +80,16 @@ namespace XText
 
         public override string ToString()
         {
+            return ToString(true);
+        }
+
+        public override string ToPlainString()
+        {
+            return ToString(true);
+        }
+
+        private string ToString(bool formatted)
+        {
             if ((WriteIf != null && WriteIf()) || WriteIf == null)
             {
                 var stringBuilder = new StringBuilder();
@@ -90,12 +101,12 @@ namespace XText
                     if (block != null)
                     {
                         AddingChild(stringBuilder, block);
-                        AddChild(stringBuilder, block);
+                        AddChild(stringBuilder, block, formatted);
                     }
                     else
                     {
-                        AddingChild(stringBuilder, (XInline)child);
-                        AddChild(stringBuilder, (XInline)child);
+                        AddingChild(stringBuilder, (XInline) child);
+                        AddChild(stringBuilder, (XInline) child, formatted);
                     }
                 }
 

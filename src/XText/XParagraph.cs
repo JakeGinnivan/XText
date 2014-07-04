@@ -83,12 +83,12 @@ namespace XText
                 stringBuilder.Append(" ");
         }
 
-        protected override void AddChild(StringBuilder stringBuilder, XBlock child)
+        protected override void AddChild(StringBuilder stringBuilder, XBlock child, bool formatted)
         {
             Debug.WriteLine("XParagraph only supports inline content");
         }
 
-        protected override void AddChild(StringBuilder stringBuilder, XInline child)
+        protected override void AddChild(StringBuilder stringBuilder, XInline child, bool formatted)
         {
             stringBuilder.Append(child);
         }
@@ -105,9 +105,7 @@ namespace XText
 
         public override string ToPlainString()
         {
-            var regex = new Regex(@"^ ?(.*?) ?\r?$", RegexOptions.Multiline);
-            var indent = BlockStyle == BlockStyle.Indented ? "  " : string.Empty;
-            return indent + regex.Replace(string.Join(" ", Children.Select(s => s.ToPlainString())), indent + "$1").Replace("\n", Environment.NewLine).Trim() + "\r\n";
+            return ShouldBuildElement() ? base.ToPlainString() + Environment.NewLine : base.ToString();
         }
     }
 }

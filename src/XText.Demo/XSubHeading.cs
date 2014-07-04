@@ -27,12 +27,12 @@ namespace XText.Demo
             return buildElementInternal;
         }
 
-        protected override void AddChild(StringBuilder stringBuilder, XBlock child)
+        protected override void AddChild(StringBuilder stringBuilder, XBlock child, bool formatted)
         {
             throw new InvalidOperationException("XSubHeading should have no children");
         }
 
-        protected override void AddChild(StringBuilder stringBuilder, XInline child)
+        protected override void AddChild(StringBuilder stringBuilder, XInline child, bool formatted)
         {
             throw new InvalidOperationException("XSubHeading should have no children");
         }
