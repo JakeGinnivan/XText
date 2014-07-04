@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>$id$</id>
-    <version>1.4.1.0</version>
+    <version>1.4.2.0</version>
     <title>$title$</title>
     <authors>Jake Ginnivan, Graeme Foster</authors>
     <owners>Jake Ginnivan</owners>
@@ -18,7 +18,7 @@
 1.2.0.0 - Restricted XParagraph to only accept inlines
 1.3.0.0 - Added ToString overloads for all elements, and a few bug fixes
 1.4.0.0 - Added Binding support and ToPlainString method
-1.4.1.0 - Bug fixes
+1.4.2.0 - Bug fixes
     </releaseNotes>
   </metadata>
 </package>
