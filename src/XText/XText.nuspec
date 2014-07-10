@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>$id$</id>
-    <version>1.4.3.0</version>
+    <version>1.4.4.0</version>
     <title>$title$</title>
     <authors>Jake Ginnivan, Graeme Foster</authors>
     <owners>Jake Ginnivan</owners>
@@ -20,6 +20,7 @@
 1.4.0.0 - Added Binding support and ToPlainString method
 1.4.2.0 - Bug fixes
 1.4.3.0 - Bug fixes
+1.4.4.0 - Fixed ToPlainString bug
     </releaseNotes>
   </metadata>
 </package>
