@@ -85,7 +85,7 @@ namespace XText
 
         public override string ToPlainString()
         {
-            return ToString(true);
+            return ToString(false);
         }
 
         private string ToString(bool formatted)
