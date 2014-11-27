@@ -13,7 +13,7 @@ namespace XText
         readonly IList<XInline> children = new List<XInline>();
 
         public XSpan(params XInline[] children)
-            : base(null)
+            : base(() => null)
         {
             foreach (var inlineFormattedText in children)
             {
@@ -22,7 +22,7 @@ namespace XText
         }
 
         public XSpan(Func<bool> writeIf, params XInline[] children)
-            : base(writeIf, null)
+            : base(writeIf, () => null)
         {
             foreach (var inlineFormattedText in children)
             {

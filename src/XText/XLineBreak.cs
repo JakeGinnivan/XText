@@ -5,10 +5,10 @@ namespace XText
 {
     public class XLineBreak : XInline
     {
-        public XLineBreak() : base(null)
+        public XLineBreak() : base(() => null)
         { }
 
-        public XLineBreak(Func<bool> writeIf) : base(writeIf, null)
+        public XLineBreak(Func<bool> writeIf) : base(writeIf, () => null)
         { }
 
         protected override Inline BuildElementInternal()

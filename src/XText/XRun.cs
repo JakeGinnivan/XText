@@ -11,12 +11,24 @@ namespace XText
         readonly string style;
 
         public XRun(string text, string style = null)
-            : base(text)
+            : base(() => text)
         {
             this.style = style ?? DefaultStye;
         }
 
         public XRun(Func<bool> writeIf, string text, string style = null)
+            : base(writeIf, () => text)
+        {
+            this.style = style ?? DefaultStye;
+        }
+
+        public XRun(Func<string> text, string style = null)
+            : base(text)
+        {
+            this.style = style ?? DefaultStye;
+        }
+
+        public XRun(Func<bool> writeIf, Func<string> text, string style = null)
             : base(writeIf, text)
         {
             this.style = style ?? DefaultStye;
@@ -30,7 +42,7 @@ namespace XText
         }
 
         public XRun(Binding textBinding, string style)
-            : base(string.Empty)
+            : base(() => string.Empty)
         {
             this.textBinding = textBinding;
             this.style = style ?? DefaultStye;

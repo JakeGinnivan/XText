@@ -6,8 +6,10 @@ namespace XText.Demo
 {
     public class MyHighlightedText : XInline
     {
-        public MyHighlightedText(string text) : base(text) { }
-        public MyHighlightedText(Func<bool> writeIf, string text) : base(writeIf, text) { }
+        public MyHighlightedText(string text) : base(() => text) { }
+        public MyHighlightedText(Func<bool> writeIf, string text) : base(writeIf, () => text) { }
+        public MyHighlightedText(Func<string> text) : base(text) { }
+        public MyHighlightedText(Func<bool> writeIf, Func<string> text) : base(writeIf, text) { }
 
         protected override Inline BuildElementInternal()
         {

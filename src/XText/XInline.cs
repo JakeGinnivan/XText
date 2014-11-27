@@ -5,26 +5,26 @@ namespace XText
 {
     public abstract class XInline : XTextElement
     {
-        private string text;
-
-        protected XInline(string text)
+        private readonly Func<string> text;
+        
+        protected XInline(Func<string> text)
             : base(null)
         {
-            Text = text;
+            this.text = text;
         }
 
-        protected XInline(Func<bool> writeIf, string text)
+        protected XInline(Func<bool> writeIf, Func<string> text)
             : base(writeIf)
         {
-            Text = text;
+            this.text = text;
         }
 
         public string Text
         {
-            get { return text; }
-            private set
+            get
             {
-                text = value == null ? null : value.Trim();
+                var t = text();
+                return t == null ? null : t.Trim();
             }
         }
 

@@ -7,10 +7,12 @@ namespace XText
     public class XItalic : XInline
     {
         private readonly Binding textBinding;
-        public XItalic(string text) : base(text) { }
-        public XItalic(Func<bool> writeIf, string text) : base(writeIf, text) { }
+        public XItalic(string text) : base(() => text) { }
+        public XItalic(Func<bool> writeIf, string text) : base(writeIf, () => text) { }
+        public XItalic(Func<string> text) : base(text) { }
+        public XItalic(Func<bool> writeIf, Func<string> text) : base(writeIf, text) { }
 
-        public XItalic(Binding textBinding) : base(string.Empty)
+        public XItalic(Binding textBinding) : base(() => string.Empty)
         {
             this.textBinding = textBinding;
         }

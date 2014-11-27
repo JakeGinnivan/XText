@@ -1,3 +1,3 @@
-Some test **with bold** (and stuff)
+﻿Some test **with bold** (and stuff)
 
 Multiple lines. Next

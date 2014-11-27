@@ -8,10 +8,13 @@ namespace XText
     {
         readonly Binding textBinding;
 
-        public XBold(string text) : base(text) { }
-        public XBold(Func<bool> writeIf, string text) : base(writeIf, text) { }
+        public XBold(string text) : base(() => text) { }
+        public XBold(Func<bool> writeIf, string text) : base(writeIf, () => text) { }
 
-        public XBold(Binding textBinding) : base(string.Empty)
+        public XBold(Func<string> text) : base(text) { }
+        public XBold(Func<bool> writeIf, Func<string> text) : base(writeIf, text) { }
+
+        public XBold(Binding textBinding) : base(() => null)
         {
             this.textBinding = textBinding;
         }
