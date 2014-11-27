@@ -150,5 +150,13 @@ namespace XText.Tests
                 .ToString();
             Assert.Equal("Line 1\r\nHi there\r\n", toString);
         }
+
+        [Fact]
+        public void XSpanPlainToString()
+        {
+            var toString = new XSpan("Test", new XBold("bold")).ToPlainString();
+
+            Assert.Equal("Test bold", toString);
+        }
     }
 }

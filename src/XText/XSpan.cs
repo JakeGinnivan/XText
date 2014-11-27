@@ -54,7 +54,7 @@ namespace XText
 
         public override string ToPlainString()
         {
-            return string.Join(" ", children.Where(c => c.ShouldBuildElement()).Select(c => c.ToString()));
+            return string.Join(" ", children.Where(c => c.ShouldBuildElement()).Select(c => c.ToPlainString()));
         }
     }
 }

@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>$id$</id>
-    <version>1.4.4.0</version>
+    <version>1.5.1</version>
     <title>$title$</title>
     <authors>Jake Ginnivan, Graeme Foster</authors>
     <owners>Jake Ginnivan</owners>
@@ -12,15 +12,17 @@
     <copyright>Copyright Jake Ginnivan 2012</copyright>
     <tags>WPF TextBlock Inline Run Formatting Text FlowDoc</tags>
     <releaseNotes>
-1.0.0.0 - Initial Release
-1.0.1.0 - Added implicit cast operator from string->XInline
-1.1.0.0 - Renamed XElement to XTextElement (because of naming conflict with actual XElement)
-1.2.0.0 - Restricted XParagraph to only accept inlines
-1.3.0.0 - Added ToString overloads for all elements, and a few bug fixes
-1.4.0.0 - Added Binding support and ToPlainString method
-1.4.2.0 - Bug fixes
-1.4.3.0 - Bug fixes
-1.4.4.0 - Fixed ToPlainString bug
+1.0.0 - Initial Release
+1.0.1 - Added implicit cast operator from string->XInline
+1.1.0 - Renamed XElement to XTextElement (because of naming conflict with actual XElement)
+1.2.0 - Restricted XParagraph to only accept inlines
+1.3.0 - Added ToString overloads for all elements, and a few bug fixes
+1.4.0 - Added Binding support and ToPlainString method
+1.4.2 - Bug fixes
+1.4.3 - Bug fixes
+1.4.4 - Fixed ToPlainString bug
+1.5.0 - Fix scenario with unwanted spaces between words, allow late binding of text (with null ref protection)
+1.5.1 - Fixed issue with span and ToPlainString
     </releaseNotes>
   </metadata>
 </package>
