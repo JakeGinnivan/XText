@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XText", "XText\XText.csproj", "{7C10670E-27BF-4BBA-9BD0-B7236B105405}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XText.Demo", "XText.Demo\XText.Demo.csproj", "{1DE03B08-CB3D-4D71-B410-6EB18C1F3D4F}"
@@ -9,7 +11,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{88EAFF
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.Config = .nuget\NuGet.Config
 		.nuget\nuget.exe = .nuget\nuget.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XText.Tests", "XText.Tests\XText.Tests.csproj", "{34088EBB-16B1-49BE-BB70-81ECDCCD8C0C}"
