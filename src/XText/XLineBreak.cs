@@ -20,5 +20,10 @@ namespace XText
         {
             return Environment.NewLine;
         }
+
+        public override string ToPlainString()
+        {
+            return Environment.NewLine;
+        }
     }
 }

@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>$id$</id>
-    <version>1.5.2</version>
+    <version>1.5.3</version>
     <title>$title$</title>
     <authors>Jake Ginnivan, Graeme Foster</authors>
     <owners>Jake Ginnivan</owners>
@@ -24,6 +24,7 @@
 1.5.0 - Fix scenario with unwanted spaces between words, allow late binding of text (with null ref protection)
 1.5.1 - Fixed issue with span and ToPlainString
 1.5.2 - Fixed issue with paragraph and ToPlainString
+1.5.3 - Fixed new line in paragraph issue with using ToPlainString
     </releaseNotes>
   </metadata>
 </package>

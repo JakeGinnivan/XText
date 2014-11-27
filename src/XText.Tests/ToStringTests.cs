@@ -162,9 +162,9 @@ namespace XText.Tests
         [Fact]
         public void XParagraphPlainToString()
         {
-            var toString = new XParagraph("Test", new XBold("bold")).ToPlainString();
+            var toString = new XParagraph("Test", new XBold("bold"), new XLineBreak(), "And more").ToPlainString();
 
-            Assert.Equal("Test bold\r\n", toString);
+            Assert.Equal("Test bold\r\nAnd more\r\n", toString);
         }
     }
 }
