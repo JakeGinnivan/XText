@@ -23,8 +23,15 @@ namespace XText
         {
             get
             {
-                var t = text();
-                return t == null ? null : t.Trim();
+                try
+                {
+                    var t = text();
+                    return t == null ? null : t.Trim();
+                }
+                catch (NullReferenceException)
+                {
+                    return null;
+                }
             }
         }
 
