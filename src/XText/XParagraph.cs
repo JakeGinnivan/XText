@@ -89,7 +89,7 @@ namespace XText
 
         protected override void AddChild(StringBuilder stringBuilder, XInline child, bool formatted)
         {
-            stringBuilder.Append(child);
+            stringBuilder.Append(formatted ? child.ToString() : child.ToPlainString());
         }
 
         protected override void AddingChild(StringBuilder stringBuilder, XBlock child)
@@ -104,7 +104,7 @@ namespace XText
 
         public override string ToPlainString()
         {
-            return ShouldBuildElement() ? base.ToPlainString() + Environment.NewLine : base.ToString();
+            return ShouldBuildElement() ? base.ToPlainString() + Environment.NewLine : base.ToPlainString();
         }
     }
 }

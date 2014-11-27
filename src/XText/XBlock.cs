@@ -23,12 +23,9 @@ namespace XText
         {
             Children = children.ToList();
             BlockStyle = blockStyle;
-            WriteIf = writeIf;
         }
 
         public BlockStyle BlockStyle { get; set; }
-
-        public Func<bool> WriteIf { get; private set; }
 
         protected abstract FrameworkElement BuildElementInternal();
 
@@ -44,7 +41,7 @@ namespace XText
 
         public FrameworkElement BuildElement()
         {
-            if ((WriteIf != null && WriteIf()) || WriteIf == null)
+            if (ShouldBuildElement())
             {
                 var element = BuildElementInternal();
 
@@ -90,7 +87,7 @@ namespace XText
 
         private string ToString(bool formatted)
         {
-            if ((WriteIf != null && WriteIf()) || WriteIf == null)
+            if (ShouldBuildElement())
             {
                 var stringBuilder = new StringBuilder();
 
