@@ -13,19 +13,30 @@ namespace XText
         public XRun(string text, string style = null)
             : base(text)
         {
-            this.style = style;
+            this.style = style ?? DefaultStye;
         }
 
         public XRun(Func<bool> writeIf, string text, string style = null)
             : base(writeIf, text)
         {
-            this.style = style;
+            this.style = style ?? DefaultStye;
         }
 
-        public XRun(Binding textBinding) : base(string.Empty)
+        // Doing this is a breaking change
+        // ReSharper disable once IntroduceOptionalParameters.Global
+        public XRun(Binding textBinding)
+            : this(textBinding, null)
+        {
+        }
+
+        public XRun(Binding textBinding, string style)
+            : base(string.Empty)
         {
             this.textBinding = textBinding;
+            this.style = style ?? DefaultStye;
         }
+
+        public static string DefaultStye { get; set; }
 
         protected override Inline BuildElementInternal()
         {
