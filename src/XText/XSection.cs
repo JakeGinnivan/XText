@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -12,88 +13,76 @@ namespace XText
     /// </summary>
     public class XSection : XBlock
     {
+        private readonly List<XTextElement> children;
+
         public XSection(BlockStyle blockStyle, params XTextElement[] children)
-            : base(blockStyle, children)
+            : base(blockStyle)
         {
+            this.children = children.ToList();
         }
 
         public XSection(Func<bool> writeIf, BlockStyle blockStyle, params XTextElement[] children)
-            : base(writeIf, blockStyle, children)
+            : base(writeIf, blockStyle)
         {
+            this.children = children.ToList();
         }
 
         public XSection(params XTextElement[] children)
-            : base(BlockStyle.Normal, children)
+            : base(BlockStyle.Normal)
         {
+            this.children = children.ToList();
         }
 
         public XSection(Func<bool> writeIf, params XTextElement[] children)
-            : base(writeIf, BlockStyle.Normal, children)
+            : base(writeIf, BlockStyle.Normal)
         {
+            this.children = children.ToList();
         }
 
         protected override FrameworkElement BuildElementInternal()
         {
-            return new StackPanel();
+            var buildElementInternal = new StackPanel();
+            foreach (var element in children)
+            {
+                var inline = element as XInline;
+                if (inline != null)
+                {
+                    var buildElement = inline.BuildElement();
+                    if (buildElement != null)
+                    {
+                        buildElementInternal.Children.Add(new TextBlock(buildElement));
+                    }
+                }
+                else
+                {
+                    var frameworkElement = ((XBlock)element).BuildElement();
+                    if (frameworkElement != null)
+                    {
+                        buildElementInternal.Children.Add(frameworkElement);
+                    }
+                }
+            }
+            return buildElementInternal;
         }
 
         public void AddChild(XBlock child)
         {
-            Children.Add(child);
+            children.Add(child);
         }
-
-        protected override void AddChild(FrameworkElement element, UIElement child)
+        
+        protected override string ToString(bool formatted)
         {
-            ((StackPanel)element).Children.Add(child);
-        }
-
-        protected override void AddChild(FrameworkElement element, Inline child)
-        {
-            ((StackPanel)element).Children.Add(new TextBlock(child));
-        }
-
-        protected override void AddChild(StringBuilder stringBuilder, XBlock child, bool formatted)
-        {
-            stringBuilder.AppendLine(formatted ? child.ToString() : child.ToPlainString());
-        }
-
-        protected override void AddChild(StringBuilder stringBuilder, XInline child, bool formatted)
-        {
-            stringBuilder.AppendLine(formatted ? child.ToString() : child.ToPlainString());
-        }
-
-        protected override void AddingChild(StringBuilder stringBuilder, XBlock child)
-        {
-        }
-
-        protected override void AddingChild(StringBuilder stringBuilder, XInline child)
-        {
-        }
-
-        public override string ToString()
-        {
-            return ToString(true);
-        }
-
-        public override string ToPlainString()
-        {
-            return ToString(false);
-        }
-
-        private string ToString(bool formatted)
-        {
-            var indent = string.Empty;
-            if (BlockStyle == BlockStyle.Indented)
-                indent = "  ";
-
             var stringBuilder = new StringBuilder();
-            foreach (var xElement in Children.Where(c => c.ShouldBuildElement()))
+            foreach (var xElement in children.Where(c => c.ShouldBuildElement()))
             {
-                stringBuilder.Append(indent);
-                stringBuilder.AppendLine(formatted ? xElement.ToString() : xElement.ToPlainString());
+                var value = formatted ? xElement.ToString() : xElement.ToPlainString();
+                if (BlockStyle == BlockStyle.Indented)
+                    value = Indent(value);
+
+                stringBuilder.AppendLine(value);
             }
 
-            return indent + stringBuilder.ToString().Trim();
+            return stringBuilder.ToString().TrimEnd();
         }
     }
 }

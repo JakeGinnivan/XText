@@ -15,12 +15,12 @@ namespace XText.Tests
             public Scenario1()
             {
                 section = new XSection(
-                    new XParagraph("Some test", (XBold) "with bold", "and stuff"),
+                    new XParagraph("Some test", new XBold("with bold"), "and stuff"),
                     new XParagraph("Multiple lines", new XLineBreak(), "Next"));
             }
 
             [Fact]
-            [UseReporter(typeof (DiffReporter))]
+            [UseReporter(typeof (KDiffReporter))]
             public void StringRepresentation()
             {
                 Approvals.Verify(section.ToString());
@@ -44,12 +44,12 @@ namespace XText.Tests
             public Scenario2()
             {
                 section = new XSection(
-                    new XParagraph("Some test", (XBold)" with bold ", "and stuff"),
+                    new XParagraph("Some test", new XBold(" with bold "), "and stuff"),
                     new XParagraph("Multiple lines", new XLineBreak(), "Next"));
             }
 
             [Fact]
-            [UseReporter(typeof(DiffReporter))]
+            [UseReporter(typeof(KDiffReporter))]
             public void StringRepresentation()
             {
                 Approvals.Verify(section.ToString());
@@ -73,12 +73,13 @@ namespace XText.Tests
             public WhiteSpaceScenario()
             {
                 section = new XSection(
-                    new XParagraph("Some test ", (XBold)" with bold", "(", "and stuff", ")"),
-                    new XParagraph("Multiple lines", ". Next"));
+                    new XParagraph("Some test ", new XBold(" with bold"), "(", "and stuff", ")"),
+                    new XParagraph("Multiple lines", ". Next"),
+                    new XSpan("And", "a", "span"));
             }
 
             [Fact]
-            [UseReporter(typeof(DiffReporter))]
+            [UseReporter(typeof(KDiffReporter))]
             public void StringRepresentation()
             {
                 Approvals.Verify(section.ToString());

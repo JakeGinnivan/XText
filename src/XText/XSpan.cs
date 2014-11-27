@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Windows.Documents;
 
 namespace XText
@@ -30,31 +31,71 @@ namespace XText
             }
         }
 
-        public void AddChild(XInline child)
-        {
-            children.Add(child);
-        }
-
         protected override Inline BuildElementInternal()
         {
             var element = new Span();
-            foreach (var inlineFormattedText in children)
+            foreach (var child in children.Where(o => o.ShouldBuildElement()))
             {
-                var innerElement = inlineFormattedText.BuildElement();
-                if (innerElement != null)
-                    element.Inlines.Add(innerElement);
+                var buildElement = child.BuildElement();
+                AddingChild(element, buildElement);
+                AddChild(element, buildElement);
             }
             return element;
         }
 
         public override string ToString()
         {
-            return string.Join(" ", children.Where(c => c.ShouldBuildElement()).Select(c => c.ToString()));
+            return ToString(true);
         }
 
         public override string ToPlainString()
         {
-            return string.Join(" ", children.Where(c => c.ShouldBuildElement()).Select(c => c.ToPlainString()));
+            return ToString(false);
+        }
+
+        private string ToString(bool formatted)
+        {
+            if (ShouldBuildElement())
+            {
+                var stringBuilder = new StringBuilder();
+
+                foreach (var child in children.Where(o => o.ShouldBuildElement()))
+                {
+                    AddingChild(stringBuilder, child);
+                    AddChild(stringBuilder, child, formatted);
+                }
+
+                return stringBuilder.ToString();
+            }
+
+            return string.Empty;
+        }
+
+        private void AddChild(Span element, Inline child)
+        {
+            element.Inlines.Add(child);
+        }
+
+        private void AddingChild(Span element, Inline child)
+        {
+            if (FormattingCalculator.RequiresSpace(element.Inlines.LastInline, child))
+                element.Inlines.Add(new Run(" "));
+        }
+
+        private void AddingChild(StringBuilder stringBuilder, XInline child)
+        {
+            var lastCharacter = stringBuilder.Length > 0 ? stringBuilder[stringBuilder.Length - 1] : '\0';
+
+            if (child is XLineBreak)
+                return;
+
+            if (FormattingCalculator.RequiresSpace(lastCharacter, (child.Text ?? string.Empty).FirstOrDefault()))
+                stringBuilder.Append(" ");
+        }
+
+        private void AddChild(StringBuilder stringBuilder, XInline child, bool formatted)
+        {
+            stringBuilder.Append(formatted ? child.ToString() : child.ToPlainString());
         }
     }
 }
