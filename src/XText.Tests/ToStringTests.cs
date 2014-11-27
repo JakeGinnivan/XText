@@ -139,5 +139,16 @@ namespace XText.Tests
 
             Assert.Equal("Hello World", tostring);
         }
+
+        [Fact]
+        public void XSpanAfterNewLineBug()
+        {
+            var toString = new XParagraph(
+                "Line 1",
+                new XLineBreak(),
+                new XSpan(new XRun(() => false, "Foo"), "Hi", "there"))
+                .ToString();
+            Assert.Equal("Line 1\r\nHi there\r\n", toString);
+        }
     }
 }

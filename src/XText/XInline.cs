@@ -17,10 +17,7 @@ namespace XText
             : base(writeIf)
         {
             Text = text;
-            WriteIf = writeIf;
         }
-
-        public Func<bool> WriteIf { get; private set; }
 
         public string Text
         {
@@ -35,7 +32,7 @@ namespace XText
 
         public Inline BuildElement()
         {
-            if ((WriteIf != null && WriteIf()) || WriteIf == null)
+            if (ShouldBuildElement())
             {
                 return BuildElementInternal();
             }

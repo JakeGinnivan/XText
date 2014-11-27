@@ -49,12 +49,12 @@ namespace XText
 
         public override string ToString()
         {
-            return string.Join(" ", children.Select(c => c.ToString()));
+            return string.Join(" ", children.Where(c => c.ShouldBuildElement()).Select(c => c.ToString()));
         }
 
         public override string ToPlainString()
         {
-            return string.Join(string.Empty, children.Select(c => c.ToString()));
+            return string.Join(" ", children.Where(c => c.ShouldBuildElement()).Select(c => c.ToString()));
         }
     }
 }

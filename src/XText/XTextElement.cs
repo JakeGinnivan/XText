@@ -8,7 +8,7 @@ namespace XText
 
         protected XTextElement(Func<bool> shouldBuildElement)
         {
-            this.shouldBuildElement = shouldBuildElement;
+            this.shouldBuildElement = shouldBuildElement ?? (() => true);
         }
 
         public bool ShouldBuildElement()
