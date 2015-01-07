@@ -7,6 +7,7 @@
     <authors>Jake Ginnivan, Graeme Foster</authors>
     <owners>Jake Ginnivan</owners>
     <projectUrl>https://github.com/JakeGinnivan/XText</projectUrl>
+    <licenseUrl>https://github.com/JakeGinnivan/XText/blob/master/LICENSE</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <copyright>Copyright Jake Ginnivan 2014</copyright>
