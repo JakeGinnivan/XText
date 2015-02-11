@@ -80,7 +80,7 @@ namespace XText.Tests
             }
 
             [Fact]
-            [UseReporter(typeof(BeyondCompareReporter))]
+            [UseReporter(typeof(KDiffReporter))]
             public void StringRepresentation()
             {
                 Approvals.Verify(section.ToString());
