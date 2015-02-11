@@ -20,7 +20,7 @@ namespace XText
 
             var run = lastInline as Run;
             if (run != null)
-                requiresSpace = RequiresSpace(run.Text.Last(), nextInlineFirstCharacter);
+                requiresSpace = !string.IsNullOrEmpty(run.Text) && RequiresSpace(run.Text.Last(), nextInlineFirstCharacter);
 
             return requiresSpace;
         }

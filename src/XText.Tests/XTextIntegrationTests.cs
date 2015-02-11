@@ -66,6 +66,37 @@ namespace XText.Tests
             }
         }
 
+        public class Scenario3
+        {
+            private readonly XSpan section;
+
+            public Scenario3()
+            {
+                section = new XSpan(
+                        "Fred Fibnar",
+                        new XRun(""),
+                        "",
+                        "");
+            }
+
+            [Fact]
+            [UseReporter(typeof(BeyondCompareReporter))]
+            public void StringRepresentation()
+            {
+                Approvals.Verify(section.ToString());
+            }
+
+            [Fact]
+            [UseReporter(typeof(TortoiseImageDiffReporter2), typeof(ClipboardReporter))]
+            public void ControlRepresentation()
+            {
+                WpfApprovals.Verify(new ContentControl
+                {
+                    Content = section.BuildElement()
+                });
+            }
+        }
+
         public class WhiteSpaceScenario
         {
             private readonly XSection section;
