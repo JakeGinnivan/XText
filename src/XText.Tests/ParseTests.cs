@@ -26,6 +26,13 @@ namespace XText.Tests
         }
 
         [Fact]
+        public void NewLine()
+        {
+            Verify(new XSpan("Multiline", new XLineBreak(), "Text"));
+            Verify(new XSpan(new XLineBreak(), "Start with newline"));
+        }
+
+        [Fact]
         public void SimpleSpans()
         {
             Verify(new XSpan(new XBold("Bold"), "First"));
@@ -48,7 +55,14 @@ namespace XText.Tests
         public static XTextElement Parse(string str)
         {
             var inlines = new List<XInline>();
+            str = str.Replace("\r\n", "\n");
 
+            return ParseInlineString(str);
+        }
+
+        private static XInline ParseInlineString(string str)
+        {
+            var inlines = new List<XInline>();
             bool formattedInlineMatch;
             do
             {
@@ -57,17 +71,34 @@ namespace XText.Tests
                 var italicDelimiter = "*";
                 var boldStart = str.IndexOf(boldDelimiter, StringComparison.Ordinal);
                 var italicStart = str.IndexOf(italicDelimiter, StringComparison.Ordinal);
-                
-                if (boldStart != -1 && boldStart <= italicStart)
+                var newLineStart = str.IndexOf("\n", StringComparison.Ordinal);
+
+                if (newLineStart != -1 && (newLineStart < boldStart || boldStart == -1) &&
+                    (newLineStart < italicStart || italicStart == -1))
+                {
+                    if (newLineStart == 0)
+                    {
+                        inlines.Add(new XLineBreak());
+                        str = str.Substring(1);
+                    }
+                    else
+                    {
+                        inlines.Add(new XRun(str.Substring(0, newLineStart)));
+                        str = str.Substring(newLineStart + 1);
+                        inlines.Add(new XLineBreak());
+                    }
+                }
+                else if (boldStart != -1 && boldStart <= italicStart)
                 {
                     str = ParseNextInline(str, boldDelimiter, boldStart, inlines, s => new XBold(s));
                     formattedInlineMatch = true;
-                } else if (italicStart != -1)
+                }
+                else if (italicStart != -1)
                 {
                     str = ParseNextInline(str, italicDelimiter, italicStart, inlines, s => new XItalic(s));
                     formattedInlineMatch = true;
                 }
-            } while (formattedInlineMatch); 
+            } while (formattedInlineMatch);
 
             if (!string.IsNullOrEmpty(str))
                 inlines.Add(new XRun(str));
