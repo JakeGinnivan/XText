@@ -20,12 +20,12 @@ namespace XText
 
         public static implicit operator XTextElement(string s)
         {
-            return new XSpan(s);
+            return new XRun(s);
         }
 
         public abstract string ToPlainString();
 
-        protected bool ListEquals(IList<XInline> l1, IList<XInline> l2)
+        protected bool ListEquals<T>(IList<T> l1, IList<T> l2) where T : XTextElement
         {
             if (Equals(l1, l2))
                 return true;

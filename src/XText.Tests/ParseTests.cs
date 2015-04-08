@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Shouldly;
 using Xunit;
 
@@ -46,6 +47,13 @@ namespace XText.Tests
             Verify(new XSpan("Some", new XBold("Bold"), "&", new XItalic("Italic"), "Text", new XItalic("1"), new XBold("!")));
         }
 
+        [Fact]
+        public void TwoParagraphsInASection()
+        {
+            Verify(new XSection(new XParagraph("First paragraph"), "Inline second"));
+            Verify(new XSection(new XParagraph("First paragraph"), new XParagraph("Second paragraph")));
+        }
+
         void Verify(XTextElement element)
         {
             var str = element.ToString();
@@ -62,6 +70,26 @@ namespace XText.Tests
         {
             str = str.Replace("\r\n", "\n");
 
+            if (str.IndexOf("\n\n", StringComparison.Ordinal) != -1)
+            {
+                var isLastAParagraph = str.EndsWith("\n");
+                var paragraphs = str.TrimEnd('\n').Split(new[] { "\n\n" }, StringSplitOptions.None);
+                var parsed = paragraphs.Select(ParseBlock).ToArray();
+                for (var i = 0; i < parsed.Length; i++)
+                {
+                    var isLast = i == parsed.Length - 1;
+
+                    if (isLast && !isLastAParagraph) continue;
+                    if (parsed[i] is XInline) parsed[i] = new XParagraph((XInline) parsed[i]);
+                }
+                return new XSection(parsed);
+            }
+
+            return ParseBlock(str);
+        }
+
+        private static XTextElement ParseBlock(string str)
+        {
             if (str.StartsWith("  "))
             {
                 return new XParagraph(BlockStyle.Indented, str.Substring(2));
@@ -77,13 +105,14 @@ namespace XText.Tests
             do
             {
                 formattedInlineMatch = false;
-                var boldDelimiter = "**";
-                var italicDelimiter = "*";
+                const string boldDelimiter = "**";
+                const string italicDelimiter = "*";
                 var boldStart = str.IndexOf(boldDelimiter, StringComparison.Ordinal);
                 var italicStart = str.IndexOf(italicDelimiter, StringComparison.Ordinal);
                 var newLineStart = str.IndexOf("\n", StringComparison.Ordinal);
 
-                if (newLineStart != -1 && (newLineStart < boldStart || boldStart == -1) &&
+                if (newLineStart != -1 && 
+                    (newLineStart < boldStart || boldStart == -1) &&
                     (newLineStart < italicStart || italicStart == -1))
                 {
                     if (newLineStart == 0)
