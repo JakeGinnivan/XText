@@ -53,41 +53,18 @@ namespace XText.Tests
             do
             {
                 formattedInlineMatch = false;
-                var boldStart = str.IndexOf("**", StringComparison.Ordinal);
-                var italicStart = str.IndexOf("*", StringComparison.Ordinal);
+                var boldDelimiter = "**";
+                var italicDelimiter = "*";
+                var boldStart = str.IndexOf(boldDelimiter, StringComparison.Ordinal);
+                var italicStart = str.IndexOf(italicDelimiter, StringComparison.Ordinal);
+                
                 if (boldStart != -1 && boldStart <= italicStart)
                 {
-                    var boldEnd = str.IndexOf("**", boldStart + 2, StringComparison.Ordinal);
-                    if (boldStart == 0)
-                    {
-                        var substring = str.Substring(boldStart + 2, boldEnd - boldStart - 2);
-                        inlines.Add(new XBold(substring));
-                        str = str.Substring(boldEnd + 2);
-                    }
-                    else
-                    {
-                        inlines.Add(new XRun(str.Substring(0, boldStart)));
-                        var substring = str.Substring(boldStart + 2, boldEnd - boldStart - 2);
-                        inlines.Add(new XBold(substring));
-                        str = str.Substring(boldEnd + 2);
-                    }
+                    str = ParseNextInline(str, boldDelimiter, boldStart, inlines, s => new XBold(s));
                     formattedInlineMatch = true;
                 } else if (italicStart != -1)
                 {
-                    var italicEnd = str.IndexOf("*", italicStart + 1, StringComparison.Ordinal);
-                    if (italicStart == 0)
-                    {
-                        var substring = str.Substring(italicStart + 1, italicEnd - italicStart - 1);
-                        inlines.Add(new XItalic(substring));
-                        str = str.Substring(italicEnd + 1);
-                    }
-                    else
-                    {
-                        inlines.Add(new XRun(str.Substring(0, italicStart)));
-                        var substring = str.Substring(italicStart + 1, italicEnd - italicStart - 1);
-                        inlines.Add(new XItalic(substring));
-                        str = str.Substring(italicEnd + 1);
-                    }
+                    str = ParseNextInline(str, italicDelimiter, italicStart, inlines, s => new XItalic(s));
                     formattedInlineMatch = true;
                 }
             } while (formattedInlineMatch); 
@@ -99,6 +76,26 @@ namespace XText.Tests
                 return inlines[0];
 
             return new XSpan(inlines.ToArray());
+        }
+
+        private static string ParseNextInline(string str, string delimiter, int start, ICollection<XInline> inlines, Func<string, XInline> factory)
+        {
+            var delimiterLength = delimiter.Length;
+            var delimiterEnd = str.IndexOf(delimiter, start + delimiterLength, StringComparison.Ordinal);
+            if (start == 0)
+            {
+                var substring = str.Substring(start + delimiterLength, delimiterEnd - start - delimiterLength);
+                inlines.Add(factory(substring));
+                str = str.Substring(delimiterEnd + delimiterLength);
+            }
+            else
+            {
+                inlines.Add(new XRun(str.Substring(0, start)));
+                var substring = str.Substring(start + delimiterLength, delimiterEnd - start - delimiterLength);
+                inlines.Add(factory(substring));
+                str = str.Substring(delimiterEnd + delimiterLength);
+            }
+            return str;
         }
     }
 }
