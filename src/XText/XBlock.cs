@@ -1,8 +1,6 @@
 using System;
 using System.Linq;
-using System.Text;
 using System.Windows;
-using System.Windows.Documents;
 
 namespace XText
 {
@@ -59,6 +57,34 @@ namespace XText
         {
             var indentedLines = stringToIndent.Split(new[] { Environment.NewLine }, StringSplitOptions.None).Select(s => "  " + s);
             return string.Join(Environment.NewLine, indentedLines);
+        }
+
+        protected bool Equals(XBlock other)
+        {
+            return BlockStyle == other.BlockStyle;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != GetType()) return false;
+            return Equals((XBlock) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return (int) BlockStyle;
+        }
+
+        public static bool operator ==(XBlock left, XBlock right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(XBlock left, XBlock right)
+        {
+            return !Equals(left, right);
         }
     }
 }

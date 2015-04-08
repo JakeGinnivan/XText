@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 
 namespace XText
 {
@@ -73,16 +72,53 @@ namespace XText
         protected override string ToString(bool formatted)
         {
             var stringBuilder = new StringBuilder();
-            foreach (var xElement in children.Where(c => c.ShouldBuildElement()))
+            var xTextElements = children.Where(c => c.ShouldBuildElement()).ToList();
+            for (var index = 0; index < xTextElements.Count; index++)
             {
+                var xElement = xTextElements[index];
                 var value = formatted ? xElement.ToString() : xElement.ToPlainString();
                 if (BlockStyle == BlockStyle.Indented)
                     value = Indent(value);
 
-                stringBuilder.AppendLine(value);
+                var isLastElement = index == xTextElements.Count - 1;
+                if (isLastElement)
+                    stringBuilder.Append(value);
+                else
+                    stringBuilder.AppendLine(value);
             }
 
-            return stringBuilder.ToString().TrimEnd();
+            return stringBuilder.ToString();
+        }
+
+        protected bool Equals(XSection other)
+        {
+            return base.Equals(other) && ListEquals(children, other.children);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != GetType()) return false;
+            return Equals((XSection) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (base.GetHashCode()*397) ^ (children != null ? children.GetHashCode() : 0);
+            }
+        }
+
+        public static bool operator ==(XSection left, XSection right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(XSection left, XSection right)
+        {
+            return !Equals(left, right);
         }
     }
 }

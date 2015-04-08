@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace XText
 {
@@ -18,9 +20,17 @@ namespace XText
 
         public static implicit operator XTextElement(string s)
         {
-            return new XSpan(s);
+            return new XRun(s);
         }
 
         public abstract string ToPlainString();
+
+        protected bool ListEquals<T>(IList<T> l1, IList<T> l2) where T : XTextElement
+        {
+            if (Equals(l1, l2))
+                return true;
+
+            return l1.SequenceEqual(l2);
+        }
     }
 }

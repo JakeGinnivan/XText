@@ -72,5 +72,42 @@ namespace XText
 
             return base.ToString();
         }
+
+        protected bool Equals(XRun other)
+        {
+            return 
+                base.Equals(other) && 
+                Equals(textBinding != null ? textBinding.Path : null, other.textBinding != null ? other.textBinding.Path : null) && 
+                string.Equals(style, other.style);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != GetType()) return false;
+            return Equals((XRun) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = base.GetHashCode();
+                hashCode = (hashCode*397) ^ (textBinding != null ? textBinding.Path.GetHashCode() : 0);
+                hashCode = (hashCode*397) ^ (style != null ? style.GetHashCode() : 0);
+                return hashCode;
+            }
+        }
+
+        public static bool operator ==(XRun left, XRun right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(XRun left, XRun right)
+        {
+            return !Equals(left, right);
+        }
     }
 }
