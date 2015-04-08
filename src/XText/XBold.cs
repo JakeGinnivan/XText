@@ -57,7 +57,7 @@ namespace XText
         {
             unchecked
             {
-                return (base.GetHashCode()*397) ^ (textBinding != null ? textBinding.GetHashCode() : 0);
+                return (base.GetHashCode()*397) ^ (textBinding != null ? textBinding.Path.GetHashCode() : 0);
             }
         }
 

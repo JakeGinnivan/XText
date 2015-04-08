@@ -20,10 +20,17 @@ namespace XText.Tests
         }
 
         [Fact]
+        public void Italic()
+        {
+            Verify(new XItalic("Text"));
+        }
+
+        [Fact]
         public void SimpleSpans()
         {
             Verify(new XSpan(new XBold("Bold"), "First"));
             Verify(new XSpan("Some", new XBold("Bold"), "Text", new XBold("!")));
+            Verify(new XSpan("Some", new XBold("Bold"), "&", new XItalic("Italic"), "Text", new XItalic("1"), new XBold("!")));
         }
 
         void Verify(XTextElement element)
@@ -47,7 +54,8 @@ namespace XText.Tests
             {
                 formattedInlineMatch = false;
                 var boldStart = str.IndexOf("**", StringComparison.Ordinal);
-                if (boldStart != -1)
+                var italicStart = str.IndexOf("*", StringComparison.Ordinal);
+                if (boldStart != -1 && boldStart <= italicStart)
                 {
                     var boldEnd = str.IndexOf("**", boldStart + 2, StringComparison.Ordinal);
                     if (boldStart == 0)
@@ -62,6 +70,23 @@ namespace XText.Tests
                         var substring = str.Substring(boldStart + 2, boldEnd - boldStart - 2);
                         inlines.Add(new XBold(substring));
                         str = str.Substring(boldEnd + 2);
+                    }
+                    formattedInlineMatch = true;
+                } else if (italicStart != -1)
+                {
+                    var italicEnd = str.IndexOf("*", italicStart + 1, StringComparison.Ordinal);
+                    if (italicStart == 0)
+                    {
+                        var substring = str.Substring(italicStart + 1, italicEnd - italicStart - 1);
+                        inlines.Add(new XItalic(substring));
+                        str = str.Substring(italicEnd + 1);
+                    }
+                    else
+                    {
+                        inlines.Add(new XRun(str.Substring(0, italicStart)));
+                        var substring = str.Substring(italicStart + 1, italicEnd - italicStart - 1);
+                        inlines.Add(new XItalic(substring));
+                        str = str.Substring(italicEnd + 1);
                     }
                     formattedInlineMatch = true;
                 }
