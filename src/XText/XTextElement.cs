@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace XText
 {
@@ -22,5 +24,13 @@ namespace XText
         }
 
         public abstract string ToPlainString();
+
+        protected bool ListEquals(IList<XInline> l1, IList<XInline> l2)
+        {
+            if (Equals(l1, l2))
+                return true;
+
+            return l1.SequenceEqual(l2);
+        }
     }
 }

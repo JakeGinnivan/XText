@@ -70,5 +70,36 @@ namespace XText
 
             return spanToString + Environment.NewLine;
         }
+
+        protected bool Equals(XParagraph other)
+        {
+            return base.Equals(other) && ListEquals(children, other.children);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != GetType()) return false;
+            return Equals((XParagraph) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (base.GetHashCode()*397) ^ (children != null ? children.GetHashCode() : 0);
+            }
+        }
+
+        public static bool operator ==(XParagraph left, XParagraph right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(XParagraph left, XParagraph right)
+        {
+            return !Equals(left, right);
+        }
     }
 }

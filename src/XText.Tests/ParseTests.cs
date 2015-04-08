@@ -26,6 +26,12 @@ namespace XText.Tests
         }
 
         [Fact]
+        public void IndentedParagraph()
+        {
+            Verify(new XParagraph(BlockStyle.Indented, "Indented Text"));
+        }
+
+        [Fact]
         public void NewLine()
         {
             Verify(new XSpan("Multiline", new XLineBreak(), "Text"));
@@ -54,8 +60,12 @@ namespace XText.Tests
     {
         public static XTextElement Parse(string str)
         {
-            var inlines = new List<XInline>();
             str = str.Replace("\r\n", "\n");
+
+            if (str.StartsWith("  "))
+            {
+                return new XParagraph(BlockStyle.Indented, str.Substring(2));
+            }
 
             return ParseInlineString(str);
         }

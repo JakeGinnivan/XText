@@ -103,14 +103,6 @@ namespace XText
             return base.Equals(other) && ListEquals(children, other.children);
         }
 
-        private bool ListEquals(IList<XInline> l1, IList<XInline> l2)
-        {
-            if (Equals(l1, l2))
-                return true;
-
-            return l1.SequenceEqual(l2);
-        }
-
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
