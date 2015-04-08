@@ -60,5 +60,33 @@ namespace XText
         {
             return ShouldBuildElement() ? Text : string.Empty;
         }
+
+        protected bool Equals(XInline other)
+        {
+            return Equals(Text, other.Text);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != GetType()) return false;
+            return Equals((XInline) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return (Text != null ? Text.GetHashCode() : 0);
+        }
+
+        public static bool operator ==(XInline left, XInline right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(XInline left, XInline right)
+        {
+            return !Equals(left, right);
+        }
     }
 }

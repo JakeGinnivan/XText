@@ -37,5 +37,38 @@ namespace XText
 
             return "**" + base.ToString() + "**";
         }
+
+        protected bool Equals(XBold other)
+        {
+            return
+                base.Equals(other) && 
+                Equals(textBinding != null ? textBinding.Path : null, other.textBinding != null ? other.textBinding.Path : null);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != GetType()) return false;
+            return Equals((XBold) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (base.GetHashCode()*397) ^ (textBinding != null ? textBinding.GetHashCode() : 0);
+            }
+        }
+
+        public static bool operator ==(XBold left, XBold right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(XBold left, XBold right)
+        {
+            return !Equals(left, right);
+        }
     }
 }
