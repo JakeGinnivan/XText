@@ -97,5 +97,44 @@ namespace XText
         {
             stringBuilder.Append(formatted ? child.ToString() : child.ToPlainString());
         }
+
+        protected bool Equals(XSpan other)
+        {
+            return base.Equals(other) && ListEquals(children, other.children);
+        }
+
+        private bool ListEquals(IList<XInline> l1, IList<XInline> l2)
+        {
+            if (Equals(l1, l2))
+                return true;
+
+            return l1.SequenceEqual(l2);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != GetType()) return false;
+            return Equals((XSpan) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (base.GetHashCode()*397) ^ (children != null ? children.GetHashCode() : 0);
+            }
+        }
+
+        public static bool operator ==(XSpan left, XSpan right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(XSpan left, XSpan right)
+        {
+            return !Equals(left, right);
+        }
     }
 }
