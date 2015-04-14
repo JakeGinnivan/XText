@@ -11,14 +11,14 @@ namespace XText
     /// </summary>
     public class XSpan : XInline
     {
-        readonly IList<XInline> children = new List<XInline>();
+        internal readonly IList<XInline> Children = new List<XInline>();
 
         public XSpan(params XInline[] children)
             : base(() => null)
         {
             foreach (var inlineFormattedText in children)
             {
-                this.children.Add(inlineFormattedText);
+                Children.Add(inlineFormattedText);
             }
         }
 
@@ -27,14 +27,14 @@ namespace XText
         {
             foreach (var inlineFormattedText in children)
             {
-                this.children.Add(inlineFormattedText);
+                Children.Add(inlineFormattedText);
             }
         }
 
         protected override Inline BuildElementInternal()
         {
             var element = new Span();
-            foreach (var child in children.Where(o => o.ShouldBuildElement()))
+            foreach (var child in Children.Where(o => o.ShouldBuildElement()))
             {
                 var buildElement = child.BuildElement();
                 AddingChild(element, buildElement);
@@ -59,7 +59,7 @@ namespace XText
             {
                 var stringBuilder = new StringBuilder();
 
-                foreach (var child in children.Where(o => o.ShouldBuildElement()))
+                foreach (var child in Children.Where(o => o.ShouldBuildElement()))
                 {
                     AddingChild(stringBuilder, child);
                     AddChild(stringBuilder, child, formatted);
@@ -100,7 +100,7 @@ namespace XText
 
         protected bool Equals(XSpan other)
         {
-            return base.Equals(other) && ListEquals(children, other.children);
+            return base.Equals(other) && ListEquals(Children, other.Children);
         }
 
         public override bool Equals(object obj)
@@ -115,7 +115,7 @@ namespace XText
         {
             unchecked
             {
-                return (base.GetHashCode()*397) ^ (children != null ? children.GetHashCode() : 0);
+                return (base.GetHashCode()*397) ^ (Children != null ? Children.GetHashCode() : 0);
             }
         }
 

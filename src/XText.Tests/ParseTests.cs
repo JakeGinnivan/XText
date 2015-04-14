@@ -52,6 +52,12 @@ namespace XText.Tests
         }
 
         [Fact]
+        public void FormattedLines()
+        {
+            Verify(new XParagraph(new XBold("Line 1"), new XLineBreak(), new XBold("Line 2")));
+        }
+
+        [Fact]
         public void EscapeActualStars()
         {
 

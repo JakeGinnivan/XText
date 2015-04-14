@@ -10,7 +10,7 @@ namespace XText
         {
             str = str.Replace("\r\n", "\n");
 
-            if (str.IndexOf("\n\n", StringComparison.Ordinal) != -1)
+            if (str.IndexOf("\n\n", StringComparison.Ordinal) != -1 || str.EndsWith("\n"))
             {
                 var isLastAParagraph = str.EndsWith("\n");
                 var paragraphs = str.TrimEnd('\n').Split(new[] { "\n\n" }, StringSplitOptions.None);
@@ -22,6 +22,9 @@ namespace XText
                     if (isLast && !isLastAParagraph) continue;
                     if (parsed[i] is XInline) parsed[i] = new XParagraph((XInline) parsed[i]);
                 }
+
+                if (paragraphs.Length == 1)
+                    return parsed.Single();
                 return new XSection(parsed);
             }
 
@@ -66,6 +69,7 @@ namespace XText
                         str = str.Substring(newLineStart + 1);
                         inlines.Add(new XLineBreak());
                     }
+                    formattedInlineMatch = true;
                 }
                 else if (boldStart != -1 && boldStart <= italicStart)
                 {

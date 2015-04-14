@@ -17,27 +17,28 @@ namespace XText
         private readonly List<XInline> children;
 
         public XParagraph(params XInline[] children)
-            : base(BlockStyle.Normal)
+            : this(BlockStyle.Normal, children)
         {
-            this.children = children.ToList();
         }
 
         public XParagraph(Func<bool> writeIf, params XInline[] children)
-            : base(writeIf, BlockStyle.Normal)
+            : this(writeIf, BlockStyle.Normal, children)
         {
-            this.children = children.ToList();
         }
 
         public XParagraph(BlockStyle blockStyle = BlockStyle.Normal, params XInline[] children)
-            : base(blockStyle)
+            : this(() => true, blockStyle, children)
         {
-            this.children = children.ToList();
         }
 
         public XParagraph(Func<bool> writeIf, BlockStyle blockStyle = BlockStyle.Normal, params XInline[] children)
             : base(writeIf, blockStyle)
         {
-            this.children = children.ToList();
+            // Unwrap a single span being passed into a paragraph
+            if (children.Length == 1 && children[0] is XSpan)
+                this.children = new List<XInline>(((XSpan) children[0]).Children);
+            else
+                this.children = children.ToList();
         }
 
         public void AddChild(XInline child)
