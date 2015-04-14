@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 
 namespace XText
 {
@@ -54,6 +55,11 @@ namespace XText
             var buildElement = new XSpan(children.ToArray()).BuildElement();
             buildElementInternal.Inlines.Add(buildElement);
             return buildElementInternal;
+        }
+
+        protected override Block BuildDocumentInternal()
+        {
+            return new Paragraph(new XSpan(children.ToArray()).BuildElement());
         }
 
         protected override string ToString(bool formatted)

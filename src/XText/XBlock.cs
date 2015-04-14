@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Windows;
+using System.Windows.Documents;
 
 namespace XText
 {
@@ -22,6 +23,25 @@ namespace XText
         public BlockStyle BlockStyle { get; set; }
 
         protected abstract FrameworkElement BuildElementInternal();
+
+        protected abstract Block BuildDocumentInternal();
+
+        public Block BuildDocument()
+        {
+            if (ShouldBuildElement())
+            {
+                var doc = BuildDocumentInternal();
+
+                if (BlockStyle == BlockStyle.Indented)
+                {
+                    doc.Margin = new Thickness(doc.Margin.Left + 10, doc.Margin.Top, doc.Margin.Right, doc.Margin.Bottom);
+                }
+
+                return doc;
+            }
+
+            return null;
+        }
 
         public FrameworkElement BuildElement()
         {

@@ -51,6 +51,13 @@ namespace XText.Tests
             Verify(new XSection(new XParagraph("First paragraph"), new XParagraph("Second paragraph")));
         }
 
+        [Fact]
+        public void EscapeActualStars()
+        {
+
+            Verify(new XBold("2 * 3"));
+        }
+
         void Verify(XTextElement element)
         {
             var str = element.ToString();

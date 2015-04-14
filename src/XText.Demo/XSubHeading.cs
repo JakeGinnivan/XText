@@ -1,6 +1,7 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 
 namespace XText.Demo
 {
@@ -24,6 +25,14 @@ namespace XText.Demo
             var buildElementInternal = new TextBlock { TextWrapping = TextWrapping.Wrap, Text = Text, Margin = new Thickness(0, 5, 0, 5) };
             buildElementInternal.SetResourceReference(FrameworkContentElement.StyleProperty, "H2");
             return buildElementInternal;
+        }
+
+        protected override Block BuildDocumentInternal()
+        {
+            return new Paragraph(new Run(Text)
+            {
+                FontSize = 16
+            });
         }
 
         protected override string ToString(bool formatted)

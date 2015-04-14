@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 
 namespace XText
 {
@@ -62,6 +63,19 @@ namespace XText
                 }
             }
             return buildElementInternal;
+        }
+
+        protected override Block BuildDocumentInternal()
+        {
+            var section = new Section();
+            foreach (var element in children)
+            {
+                var inline = element as XInline;
+                section.Blocks.Add(inline != null
+                    ? new Paragraph(inline.BuildElement())
+                    : ((XBlock) element).BuildDocument());
+            }
+            return section;
         }
 
         public void AddChild(XBlock child)

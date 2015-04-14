@@ -1,0 +1,4 @@
+﻿Some test **with bold** and stuff
+
+Multiple lines
+Next
