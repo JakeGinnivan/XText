@@ -54,6 +54,28 @@ namespace XText
                 var italicStart = str.IndexOf(italicDelimiter, StringComparison.Ordinal);
                 var newLineStart = str.IndexOf("\n", StringComparison.Ordinal);
 
+                // Fix escaped characters
+                while (italicStart > 0 && str[italicStart - 1] == '\\')
+                {
+                    // Make sure backslash is not escaped
+                    if (italicStart > 1 && str[italicStart - 2] == '\\')
+                    {
+                        // We are good to fix italicStart
+                        var startIndex = italicStart + 1;
+                        if (startIndex > str.Length)
+                            break;
+                        // Remove escape character for *
+                        str = str.Remove(italicStart - 1, 1);
+                        italicStart = str.IndexOf(italicDelimiter, startIndex, StringComparison.Ordinal);
+                    }
+                    else
+                    {
+                        str = str.Remove(italicStart - 1, 1);
+                        italicStart = str.IndexOf(italicDelimiter, italicStart, StringComparison.Ordinal);
+                        break;
+                    }
+                }
+
                 if (newLineStart != -1 && 
                     (newLineStart < boldStart || boldStart == -1) &&
                     (newLineStart < italicStart || italicStart == -1))
@@ -78,7 +100,14 @@ namespace XText
                 }
                 else if (italicStart != -1)
                 {
-                    str = ParseNextInline(str, italicDelimiter, italicStart, inlines, s => new XItalic(s));
+                    try
+                    {
+                        str = ParseNextInline(str, italicDelimiter, italicStart, inlines, s => new XItalic(s));
+                    }
+                    catch (ArgumentOutOfRangeException)
+                    {
+                        // No end found
+                    }
                     formattedInlineMatch = true;
                 }
             } while (formattedInlineMatch);
@@ -99,17 +128,22 @@ namespace XText
             if (start == 0)
             {
                 var substring = str.Substring(start + delimiterLength, delimiterEnd - start - delimiterLength);
-                inlines.Add(factory(substring));
+                inlines.Add(factory(RemoveEscapedMarkdown(substring)));
                 str = str.Substring(delimiterEnd + delimiterLength);
             }
             else
             {
                 inlines.Add(new XRun(str.Substring(0, start)));
                 var substring = str.Substring(start + delimiterLength, delimiterEnd - start - delimiterLength);
-                inlines.Add(factory(substring));
+                inlines.Add(factory(RemoveEscapedMarkdown(substring)));
                 str = str.Substring(delimiterEnd + delimiterLength);
             }
             return str;
+        }
+
+        private static string RemoveEscapedMarkdown(string substring)
+        {
+            return substring.Replace(@"\*", "*");
         }
     }
 }

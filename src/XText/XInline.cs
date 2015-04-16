@@ -53,7 +53,7 @@ namespace XText
 
         public override string ToString()
         {
-            return ToPlainString();
+            return ToPlainString().Replace("*", @"\*");
         }
 
         public override string ToPlainString()

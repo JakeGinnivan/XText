@@ -9,6 +9,9 @@ namespace XText.Tests
         public void Run()
         {
             Verify(new XRun("Text"));
+            Verify(new XRun("Text*Text"));
+            Verify(new XRun(@"Text\*Text"));
+            Verify(new XRun(@"Text\*\*Text"));
         }
 
         [Fact]
@@ -60,8 +63,8 @@ namespace XText.Tests
         [Fact]
         public void EscapeActualStars()
         {
-
             Verify(new XBold("2 * 3"));
+            Verify(new XBold("2 \\* 3"));
         }
 
         void Verify(XTextElement element)
