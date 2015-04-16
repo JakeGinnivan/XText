@@ -95,7 +95,14 @@ namespace XText
                 }
                 else if (boldStart != -1 && boldStart <= italicStart)
                 {
-                    str = ParseNextInline(str, boldDelimiter, boldStart, inlines, s => new XBold(s));
+                    try
+                    {
+                        str = ParseNextInline(str, boldDelimiter, boldStart, inlines, s => new XBold(s));
+                    }
+                    catch (ArgumentOutOfRangeException)
+                    {
+                        // No end found
+                    }
                     formattedInlineMatch = true;
                 }
                 else if (italicStart != -1)
