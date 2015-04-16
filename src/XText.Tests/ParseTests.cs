@@ -67,6 +67,14 @@ namespace XText.Tests
             Verify(new XBold("2 \\* 3"));
         }
 
+        [Fact]
+        public void NonMatchedText()
+        {
+            XTextParser.Parse("2*3");
+            XTextParser.Parse("2*");
+            XTextParser.Parse("2**3*4**");
+        }
+
         void Verify(XTextElement element)
         {
             var str = element.ToString();

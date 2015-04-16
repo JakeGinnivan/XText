@@ -45,14 +45,16 @@ namespace XText
         {
             var inlines = new List<XInline>();
             bool formattedInlineMatch;
+            int searchStartIndex = 0;
             do
             {
                 formattedInlineMatch = false;
                 const string boldDelimiter = "**";
                 const string italicDelimiter = "*";
-                var boldStart = str.IndexOf(boldDelimiter, StringComparison.Ordinal);
-                var italicStart = str.IndexOf(italicDelimiter, StringComparison.Ordinal);
-                var newLineStart = str.IndexOf("\n", StringComparison.Ordinal);
+                var boldStart = str.IndexOf(boldDelimiter, searchStartIndex, StringComparison.Ordinal);
+                var italicStart = str.IndexOf(italicDelimiter, searchStartIndex, StringComparison.Ordinal);
+                var newLineStart = str.IndexOf("\n", searchStartIndex, StringComparison.Ordinal);
+                searchStartIndex = 0;
 
                 // Fix escaped characters
                 while (italicStart > 0 && str[italicStart - 1] == '\\')
@@ -101,7 +103,7 @@ namespace XText
                     }
                     catch (ArgumentOutOfRangeException)
                     {
-                        // No end found
+                        searchStartIndex = boldStart + 1;
                     }
                     formattedInlineMatch = true;
                 }
@@ -113,7 +115,7 @@ namespace XText
                     }
                     catch (ArgumentOutOfRangeException)
                     {
-                        // No end found
+                        searchStartIndex = italicStart + 1;
                     }
                     formattedInlineMatch = true;
                 }

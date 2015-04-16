@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>$id$</id>
-    <version>2.2.1</version>
+    <version>2.2.2</version>
     <title>$title$</title>
     <authors>Jake Ginnivan, Graeme Foster</authors>
     <owners>Jake Ginnivan</owners>
@@ -31,6 +31,7 @@
 2.1.0 - Added parser to turn a compatible markdown string into an XText representation
 2.2.0 - Added .BuildDocument() to XBlock to create a FlowDocument element, fixed some bugs in parser
 2.2.1 - ToString() now escapes *'s in markdown, parse respects escaped *'s
+2.2.2 - Parsing now more tolerant to markdown which is not well formed
     </releaseNotes>
   </metadata>
 </package>
