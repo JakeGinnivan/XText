@@ -60,6 +60,9 @@ namespace XText.Tests
         public void FormattedLines()
         {
             Verify(new XParagraph(new XBold("Line 1"), new XLineBreak(), new XBold("Line 2")));
+            Verify(new XParagraph(new XBold("Line 1"), new XLineBreak(), new XBold("Line 2*")));
+            Verify(new XParagraph(new XBold("Line 1"), new XLineBreak(), new XBold("Line 2*1234")));
+            Verify(new XParagraph(new XBold("Line 1"), new XLineBreak(), new XBold("Line 2\\*1234")));
         }
 
         [Fact]
@@ -75,6 +78,16 @@ namespace XText.Tests
             XTextParser.Parse("2*3");
             XTextParser.Parse("2*");
             XTextParser.Parse("2**3*4**");
+            XTextParser.Parse("2**3\\*4**");
+        }
+
+        [Fact]
+        public void MultiParagraph()
+        {
+            const string str = @"Para 1
+
+Para 2: 2\*3";
+            XTextParser.Parse(str).ToString().ShouldBe(str);
         }
 
         void Verify(XTextElement element)

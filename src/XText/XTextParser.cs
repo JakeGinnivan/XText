@@ -76,6 +76,8 @@ namespace XText
                     else
                     {
                         str = str.Remove(italicStart - 1, 1);
+                        boldStart = str.IndexOf(boldDelimiter, italicStart, StringComparison.Ordinal);
+                        newLineStart = str.IndexOf("\n", italicStart, StringComparison.Ordinal);
                         italicStart = str.IndexOf(italicDelimiter, italicStart, StringComparison.Ordinal);
                         break;
                     }
@@ -137,6 +139,11 @@ namespace XText
         {
             var delimiterLength = delimiter.Length;
             var delimiterEnd = str.IndexOf(delimiter, start + delimiterLength, StringComparison.Ordinal);
+            while (delimiterEnd != -1 && delimiterEnd <= str.Length && str[delimiterEnd -1] == '\\')
+            {
+                delimiterEnd = str.IndexOf(delimiter, delimiterEnd + 1, StringComparison.Ordinal);
+            }
+
             if (start == 0)
             {
                 var substring = str.Substring(start + delimiterLength, delimiterEnd - start - delimiterLength);
