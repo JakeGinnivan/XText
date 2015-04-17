@@ -64,10 +64,13 @@ namespace XText
                     {
                         // We are good to fix italicStart
                         var startIndex = italicStart + 1;
-                        if (startIndex > str.Length)
-                            break;
-                        // Remove escape character for *
                         str = str.Remove(italicStart - 1, 1);
+                        if (startIndex >= str.Length)
+                        {
+                            italicStart = -1;
+                            break;
+                        }
+                        // Remove escape character for *
                         italicStart = str.IndexOf(italicDelimiter, startIndex, StringComparison.Ordinal);
                     }
                     else

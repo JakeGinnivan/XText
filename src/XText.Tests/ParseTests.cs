@@ -9,7 +9,9 @@ namespace XText.Tests
         public void Run()
         {
             Verify(new XRun("Text"));
+            Verify(new XRun("Text*"));
             Verify(new XRun("Text*Text"));
+            Verify(new XRun(@"Text\*"));
             Verify(new XRun(@"Text\*Text"));
             Verify(new XRun(@"Text\*\*Text"));
         }
