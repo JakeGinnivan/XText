@@ -152,8 +152,8 @@ namespace XText
             }
             else
             {
-                inlines.Add(new XRun(str.Substring(0, start)));
                 var substring = str.Substring(start + delimiterLength, delimiterEnd - start - delimiterLength);
+                inlines.Add(new XRun(str.Substring(0, start)));
                 inlines.Add(factory(RemoveEscapedMarkdown(substring)));
                 str = str.Substring(delimiterEnd + delimiterLength);
             }

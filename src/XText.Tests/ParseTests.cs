@@ -75,19 +75,22 @@ namespace XText.Tests
         [Fact]
         public void NonMatchedText()
         {
-            XTextParser.Parse("2*3");
-            XTextParser.Parse("2*");
-            XTextParser.Parse("2**3*4**");
-            XTextParser.Parse("2**3\\*4**");
+            Verify("2*3", "2\\*3");
+            Verify("2*", "2\\*");
+            Verify("2**3*4**", "2 **3\\*4**");
+            Verify("2**3\\*4**", "2 **3\\*4**");
+            Verify("\\***3\\***", "\\* **3\\***");
+            const string str = "Para 1\r\n\r\nPara 2: 2\\*3";
+            Verify(str, str);
         }
 
-        [Fact]
-        public void MultiParagraph()
+        void Verify(string str, string expected)
         {
-            const string str = @"Para 1
+            var element = XTextParser.Parse(str);
 
-Para 2: 2\*3";
-            XTextParser.Parse(str).ToString().ShouldBe(str);
+            var backToString = element.ToString();
+
+            backToString.ShouldBe(expected);
         }
 
         void Verify(XTextElement element)
